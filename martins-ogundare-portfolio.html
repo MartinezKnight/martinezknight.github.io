@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martins Ogundare — Brand Strategist & Digital Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080808;--surf:#101010;--surf2:#181818;--bdr:#222;--acc:#e8c547;--acc2:#c97b3a;--txt:#f0ede6;--muted:#686560;--tag:#141410}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+/* CURSOR */
+#cur{position:fixed;width:8px;height:8px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
+#cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(232,197,71,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .2s}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;transition:opacity .8s}
+.ld-name{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--acc);letter-spacing:.3em;text-transform:uppercase}
+.ld-bar{width:180px;height:1px;background:#1e1e1e;overflow:hidden}
+.ld-fill{height:100%;width:0;background:var(--acc);animation:ldFill 1.6s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes ldFill{to{width:100%}}
+.ld-pct{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.2em;margin-top:.4rem}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 5rem;display:flex;justify-content:space-between;align-items:center;transition:background .4s,border-color .4s,padding .3s;border-bottom:1px solid transparent}
+nav.s{background:rgba(8,8,8,.94);backdrop-filter:blur(20px);border-color:var(--bdr);padding:1rem 5rem}
+.nlogo{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--acc);letter-spacing:.04em}
+.nlinks{display:flex;gap:3rem;list-style:none}
+.nlinks a{color:var(--muted);text-decoration:none;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;transition:color .2s;position:relative}
+.nlinks a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--acc);transition:width .3s}
+.nlinks a:hover,.nlinks a:hover::after{color:var(--acc);width:100%}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+canvas{position:absolute;inset:0;pointer-events:none}
+.h-left{display:flex;flex-direction:column;justify-content:center;padding:10rem 5rem 5rem;position:relative;z-index:2}
+.h-eye{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--acc);margin-bottom:2rem;display:flex;align-items:center;gap:.9rem;opacity:0;animation:rise .9s .2s forwards}
+.h-line{width:28px;height:1px;background:var(--acc)}
+.h-title{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,5.5vw,6.5rem);font-weight:900;line-height:.95;letter-spacing:-.03em;opacity:0;animation:rise .9s .4s forwards}
+.h-title .it{font-style:italic;color:var(--acc);display:block}
+.h-title .out{-webkit-text-stroke:1.5px var(--txt);color:transparent;display:block}
+.h-sub{margin-top:1.8rem;font-size:.97rem;color:var(--muted);max-width:380px;font-weight:300;line-height:1.8;opacity:0;animation:rise .9s .6s forwards}
+.h-btns{display:flex;gap:1rem;margin-top:2.8rem;opacity:0;animation:rise .9s .8s forwards}
+.btn-a{background:var(--acc);color:#080808;padding:.85rem 2.2rem;border:none;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s;display:inline-block}
+.btn-a:hover{background:#fff;transform:translateY(-2px)}
+.btn-b{background:transparent;color:var(--txt);padding:.85rem 2.2rem;border:1px solid var(--bdr);font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .3s;display:inline-block}
+.btn-b:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
+.h-right{display:flex;align-items:center;justify-content:center;z-index:2;position:relative}
+.h-stats{display:flex;flex-direction:column;gap:3rem;padding:10rem 3rem 5rem;opacity:0;animation:rise .9s 1s forwards}
+.stat{border-left:2px solid var(--acc);padding-left:1.8rem}
+.s-num{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;color:var(--acc);line-height:1}
+.s-lbl{font-size:.72rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:.3rem}
+.bg-txt{position:absolute;font-family:'Playfair Display',serif;font-size:28vw;font-weight:900;color:#111;line-height:1;user-select:none;right:-2vw;bottom:-3vw;pointer-events:none;opacity:0;animation:fade .8s 1.2s forwards}
+.scroll-h{position:absolute;bottom:2.5rem;left:5rem;display:flex;align-items:center;gap:.8rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);opacity:0;animation:fade .8s 1.8s forwards}
+.arr{display:flex;flex-direction:column;gap:3px}
+.arr span{display:block;width:1px;height:7px;background:var(--muted);margin:0 auto;animation:drp 1.6s 2s infinite}
+.arr span:nth-child(2){animation-delay:2.15s;opacity:.6}
+.arr span:nth-child(3){animation-delay:2.3s;opacity:.3}
+@keyframes drp{0%,100%{transform:translateY(-4px);opacity:0}50%{transform:translateY(0);opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* MARQUEE */
+.mq{overflow:hidden;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:var(--surf);padding:.85rem 0}
+.mq-tr{display:flex;gap:2.5rem;animation:mq 25s linear infinite;white-space:nowrap;width:max-content}
+.mq-item{font-family:'Playfair Display',serif;font-size:.85rem;font-style:italic;color:var(--muted);flex-shrink:0}
+.mq-dot{color:var(--acc);margin:0 .4rem}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* LAYOUT */
+.wrap{max-width:1280px;margin:0 auto;padding:0 5rem}
+.sec{padding:8rem 0}
+.s-lbl{font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--acc);margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem}
+.s-lbl::before{content:'';width:18px;height:1px;background:var(--acc)}
+.s-ttl{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:700;line-height:1.15}
+.s-ttl em{font-style:italic;color:var(--acc)}
+.divider{width:100%;height:1px;background:var(--bdr)}
+
+/* SKILLS */
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bdr);border:1px solid var(--bdr);margin-top:3rem}
+.sk-card{background:var(--surf);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s}
+.sk-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.sk-card:hover{background:var(--surf2)}
+.sk-card:hover::after{transform:scaleX(1)}
+.sk-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(232,197,71,.07) 0%,transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
+.sk-card:hover .sk-glow{opacity:1}
+.sk-ico{font-size:1.8rem;margin-bottom:1rem;display:block}
+.sk-name{font-family:'Playfair Display',serif;font-size:1.12rem;font-weight:700;margin-bottom:.7rem}
+.sk-desc{font-size:.83rem;color:var(--muted);line-height:1.72}
+.sk-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.1rem}
+.tag{background:var(--tag);color:var(--acc);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.06em;padding:.25rem .6rem;border:1px solid rgba(232,197,71,.12)}
+
+/* EXPERIENCE */
+.exp-wrap{margin-top:3rem}
+.exp{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:2.5rem 0;border-bottom:1px solid var(--bdr);position:relative;cursor:default}
+.exp::before{content:'';position:absolute;top:0;left:0;width:0;height:1px;background:var(--acc);transition:width .7s cubic-bezier(.4,0,.2,1)}
+.exp:hover::before{width:100%}
+.e-yr{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--acc);letter-spacing:.1em}
+.e-co{font-size:.76rem;color:var(--muted);margin-top:.3rem;font-weight:500}
+.e-role{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;margin-bottom:.7rem;transition:color .3s;line-height:1.25}
+.exp:hover .e-role{color:var(--acc)}
+.e-desc{font-size:.86rem;color:var(--muted);line-height:1.76;max-width:580px}
+.e-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--tag);border:1px solid rgba(232,197,71,.18);color:var(--acc);font-family:'DM Mono',monospace;font-size:.62rem;padding:.28rem .75rem;margin-top:.9rem;letter-spacing:.05em}
+
+/* WORKS – live sites */
+.w-feat{width:100%;border-top:1px solid var(--bdr)}
+.w-in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;min-height:500px}
+.w-in.rv{direction:rtl}
+.w-in.rv>*{direction:ltr}
+.w-browser{overflow:hidden;position:relative}
+.w-bar{background:#1c1c1c;border-bottom:1px solid #2a2a2a;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem}
+.w-dots{display:flex;gap:5px}
+.w-dots span{width:10px;height:10px;border-radius:50%}
+.w-dots span:nth-child(1){background:#ff5f57}
+.w-dots span:nth-child(2){background:#febc2e}
+.w-dots span:nth-child(3){background:#28c840}
+.w-url{background:#252525;color:var(--muted);font-family:'DM Mono',monospace;font-size:.67rem;padding:.22rem .72rem;border-radius:3px;flex:1}
+.w-screen{width:100%;min-height:460px;display:flex;align-items:center;justify-content:center;padding:2.5rem;position:relative;overflow:hidden}
+.w-info{padding:4rem 3.5rem;display:flex;flex-direction:column;justify-content:center}
+.w-tag{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--acc2);margin-bottom:.9rem}
+.w-title{font-family:'Playfair Display',serif;font-size:1.85rem;font-weight:700;line-height:1.2;margin-bottom:.9rem}
+.w-desc{font-size:.86rem;color:var(--muted);line-height:1.78;margin-bottom:1.4rem}
+.w-buls{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.6rem}
+.w-bul{font-size:.81rem;color:var(--txt);opacity:.72;display:flex;align-items:flex-start;gap:.6rem}
+.w-bul::before{content:'✦';color:var(--acc);font-size:.52rem;flex-shrink:0;margin-top:.2rem}
+.w-lnk{display:inline-flex;align-items:center;gap:.5rem;color:var(--acc);text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:.08em;border-bottom:1px solid rgba(232,197,71,.25);padding-bottom:.2rem;width:fit-content;transition:all .3s}
+.w-lnk:hover{letter-spacing:.14em;border-color:var(--acc)}
+
+/* GALLERY */
+.gal-sec{background:var(--surf);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:7rem 5rem}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:2.5rem}
+.gi{position:relative;overflow:hidden;aspect-ratio:1;background:var(--surf2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem;padding:1.5rem;text-align:center}
+.gi.w2{grid-column:span 2;aspect-ratio:2/1}
+.gi-icon{font-size:2.2rem;transition:transform .4s}
+.gi:hover .gi-icon{transform:scale(1.2) rotate(-5deg)}
+.gi-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--txt);transition:color .3s;line-height:1.3}
+.gi:hover .gi-name{color:var(--acc)}
+.gi-sub{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.gi-over{position:absolute;inset:0;background:rgba(8,8,8,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;opacity:0;transition:opacity .35s;padding:1.5rem;text-align:center}
+.gi:hover .gi-over{opacity:1}
+.gi-ol{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--txt);line-height:1.3}
+.gi-os{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+/* colored bg variants */
+.gi.c1{background:linear-gradient(135deg,#0d1520,#1a2a3a)}
+.gi.c2{background:linear-gradient(135deg,#1a0a14,#2d0f22)}
+.gi.c3{background:linear-gradient(135deg,#0d1a0d,#152415)}
+.gi.c4{background:linear-gradient(135deg,#1a1a0d,#252510)}
+.gi.c5{background:linear-gradient(135deg,#0d0d1a,#15152a)}
+.gi.c6{background:linear-gradient(135deg,#1a0505,#2a0808)}
+.gi.c7{background:linear-gradient(135deg,#0d1a1a,#15252a)}
+.gi.c8{background:linear-gradient(135deg,#18180d,#232310)}
+
+/* MOCKUPS */
+.mk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:2.5rem}
+.mk-item{position:relative;overflow:hidden;background:var(--surf2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;min-height:280px;padding:2.5rem;text-align:center;cursor:default}
+.mk-icon{font-size:3rem;transition:transform .4s;display:block}
+.mk-item:hover .mk-icon{transform:scale(1.15) rotate(-8deg)}
+.mk-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;transition:color .3s}
+.mk-item:hover .mk-name{color:var(--acc)}
+.mk-sub{font-size:.7rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-family:'DM Mono',monospace}
+.mk-hover{position:absolute;inset:0;background:rgba(8,8,8,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;opacity:0;transition:opacity .35s;padding:1.5rem}
+.mk-item:hover .mk-hover{opacity:1}
+.mk-ht{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--txt)}
+.mk-hs{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--acc);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem}
+
+/* INFOGRAPHICS */
+.info-grid{display:grid;grid-template-columns:2fr 1fr;gap:3px;margin-top:2.5rem}
+.info-grid2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:3px}
+.inf{position:relative;overflow:hidden;background:var(--surf2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;min-height:360px;padding:2.5rem;text-align:center;cursor:default}
+.inf-icon{font-size:3rem;transition:transform .4s}
+.inf:hover .inf-icon{transform:scale(1.1) rotate(5deg)}
+.inf-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;line-height:1.3;transition:color .3s}
+.inf:hover .inf-name{color:var(--acc)}
+.inf-sub{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.inf-pills{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-top:.3rem}
+.inf-pill{font-family:'DM Mono',monospace;font-size:.58rem;padding:.22rem .55rem;border:1px solid rgba(232,197,71,.18);color:var(--acc)}
+.inf.c1{background:linear-gradient(135deg,#0d0d1a,#151528)}
+.inf.c2{background:linear-gradient(135deg,#1a0d0d,#2a1515)}
+.inf.c3{background:linear-gradient(135deg,#0d1a0d,#152415)}
+.inf.c4{background:linear-gradient(135deg,#1a1a0d,#252510)}
+.inf.c5{background:linear-gradient(135deg,#0d0d0d,#181818)}
+.sbadges{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bdr);border:1px solid var(--bdr);margin-top:3px}
+.sb{background:var(--surf);padding:1.5rem;text-align:center;transition:background .3s}
+.sb:hover{background:var(--surf2)}
+.sb-v{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--acc)}
+.sb-l{font-size:.7rem;color:var(--muted);margin-top:.3rem}
+
+/* VIDEO */
+.vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
+.vid-card{background:var(--surf);border:1px solid var(--bdr);overflow:hidden;transition:border-color .3s,transform .3s;text-decoration:none;display:block}
+.vid-card:hover{border-color:var(--acc);transform:translateY(-4px)}
+.vid-thumb{height:210px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;position:relative;overflow:hidden}
+.vid-play{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:transform .3s}
+.vid-card:hover .vid-play{transform:scale(1.18)}
+.vid-play::before{content:'';width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid #080808;margin-left:5px}
+.vid-pulse{position:absolute;width:58px;height:58px;border-radius:50%;animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.7);opacity:0}}
+.vid-lbl{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--txt);z-index:1;text-align:center}
+.vid-sub{font-size:.72rem;color:var(--muted);z-index:1}
+.vid-meta{padding:1.1rem 1.5rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.vid-plat{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.vid-lnk{color:var(--acc);font-size:.78rem;font-weight:600}
+
+/* TOOLS */
+.tools-sec{background:var(--surf);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:6rem 5rem}
+.tools-cloud{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.5rem}
+.tp{background:var(--bg);border:1px solid var(--bdr);color:var(--muted);font-size:.82rem;font-weight:500;padding:.6rem 1.2rem;display:flex;align-items:center;gap:.5rem;transition:all .3s;cursor:default}
+.tp:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
+.td{width:5px;height:5px;border-radius:50%;background:var(--acc);flex-shrink:0}
+
+/* CONTACT */
+.cta-sec{background:var(--acc);color:#080808;padding:9rem 5rem;text-align:center;position:relative;overflow:hidden}
+.cta-bg{position:absolute;font-family:'Playfair Display',serif;font-size:30vw;font-weight:900;opacity:.07;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap}
+.cta-t{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5.5vw,5rem);font-weight:900;line-height:1.1;position:relative}
+.cta-t em{font-style:italic;display:block}
+.cta-s{font-size:.95rem;opacity:.6;max-width:420px;margin:1.2rem auto 2.8rem;position:relative;line-height:1.75}
+.cta-lnks{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;position:relative}
+.cl{display:flex;align-items:center;gap:.6rem;background:#080808;color:var(--acc);padding:.9rem 2rem;text-decoration:none;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .3s}
+.cl:hover{background:#141414;transform:translateY(-3px)}
+.cl.ol{background:transparent;color:#080808;border:2px solid #080808}
+.cl.ol:hover{background:rgba(8,8,8,.08);transform:translateY(-3px)}
+footer{background:var(--bg);border-top:1px solid var(--bdr);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;font-size:.73rem;color:var(--muted)}
+footer span:last-child{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.12em}
+
+/* ANIMATIONS ON SCROLL — JS adds .anim-ready after load so local files show content immediately */
+.anim-ready.anim{opacity:0;transform:translateY(36px);transition:opacity .85s cubic-bezier(.4,0,.2,1),transform .85s cubic-bezier(.4,0,.2,1)}
+.anim-ready.anim.al{opacity:0;transform:translateX(-36px)}
+.anim-ready.anim.ar{opacity:0;transform:translateX(36px)}
+.anim.on{opacity:1!important;transform:none!important}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
+
+@media(max-width:900px){
+nav{padding:1rem 1.5rem}.nav.s{padding:.8rem 1.5rem}
+.h-left{padding:7rem 1.5rem 3rem}.h-right,.bg-txt{display:none}
+.hero{grid-template-columns:1fr}
+.wrap{padding:0 1.5rem}.sec{padding:4rem 0}
+.gal-sec,.tools-sec{padding:4rem 1.5rem}.cta-sec{padding:5rem 1.5rem}
+.sk-grid,.w-in,.w-in.rv,.mk-grid,.vid-grid,.info-grid,.info-grid2{grid-template-columns:1fr;direction:ltr}
+.gal-grid{grid-template-columns:repeat(2,1fr)}
+.gi.w2{grid-column:auto;aspect-ratio:1}
+.sbadges{grid-template-columns:repeat(2,1fr)}
+.w-info{padding:2rem 1.5rem}
+footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
+.nlinks{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-name">M. Ogundare</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-pct" id="ldpct">0%</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nlogo">M. Ogundare</div>
+  <ul class="nlinks">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas id="particles"></canvas>
+  <div class="h-left">
+    <div class="h-eye"><span class="h-line"></span>Brand Strategist · Digital Designer · Growth Marketer</div>
+    <h1 class="h-title">
+      Martins
+      <span class="it">Ogundare</span>
+      <span class="out" id="outWord">Creates.</span>
+    </h1>
+    <p class="h-sub">7+ years building brand systems, digital experiences, and campaigns that make people stop scrolling and start acting.</p>
+    <div class="h-btns">
+      <a href="#contact" class="btn-a">Let's Work Together</a>
+      <a href="#works" class="btn-b">See My Work</a>
+    </div>
+  </div>
+  <div class="h-right">
+    <div class="h-stats">
+      <div class="stat"><div class="s-num"><span class="cnt" data-t="7">7</span>+</div><div class="s-lbl">Years Experience</div></div>
+      <div class="stat"><div class="s-num"><span class="cnt" data-t="79">79</span>%</div><div class="s-lbl">Organic Traffic Growth</div></div>
+      <div class="stat"><div class="s-num"><span class="cnt" data-t="15">15</span>+</div><div class="s-lbl">Brands Served</div></div>
+      <div class="stat"><div class="s-num"><span class="cnt" data-t="100">100</span>+</div><div class="s-lbl">Designs Delivered</div></div>
+    </div>
+  </div>
+  <div class="bg-txt">MO</div>
+  <div class="scroll-h"><div class="arr"><span></span><span></span><span></span></div>Scroll to explore</div>
+</div>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-tr">
+    <span class="mq-item">WordPress Development<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Brand Identity<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Digital Marketing<span class="mq-dot">✦</span></span>
+    <span class="mq-item">AI Automation<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Pitch Decks<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Canva · HeyGen<span class="mq-dot">✦</span></span>
+    <span class="mq-item">SEO & Growth<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Infographics<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Brand Mockups<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Video Production<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Notion · Airtable<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Strategy · Execution<span class="mq-dot">✦</span></span>
+    <span class="mq-item">WordPress Development<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Brand Identity<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Digital Marketing<span class="mq-dot">✦</span></span>
+    <span class="mq-item">AI Automation<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Pitch Decks<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Canva · HeyGen<span class="mq-dot">✦</span></span>
+    <span class="mq-item">SEO & Growth<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Infographics<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Brand Mockups<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Video Production<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Notion · Airtable<span class="mq-dot">✦</span></span>
+    <span class="mq-item">Strategy · Execution<span class="mq-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills" style="padding:8rem 0">
+  <div class="wrap">
+    <div class="s-lbl anim">What I Bring</div>
+    <h2 class="s-ttl anim" style="margin-bottom:3rem">Core <em>Capabilities</em></h2>
+    <div class="sk-grid">
+      <div class="sk-card anim d1"><div class="sk-glow"></div><span class="sk-ico">🎨</span><div class="sk-name">Brand & Visual Design</div><div class="sk-desc">Full-stack visual identity — logos, social media graphics, infographics, pitch decks, corporate profiles, and print-ready collateral for 15+ brands.</div><div class="sk-tags"><span class="tag">Canva Pro</span><span class="tag">Figma</span><span class="tag">Brand Systems</span><span class="tag">Print Design</span></div></div>
+      <div class="sk-card anim d2"><div class="sk-glow"></div><span class="sk-ico">🌐</span><div class="sk-name">Website Development</div><div class="sk-desc">SEO-optimized, conversion-focused websites. From landing pages to full business platforms with strong UI and performance focus.</div><div class="sk-tags"><span class="tag">WordPress</span><span class="tag">Elementor</span><span class="tag">HTML/CSS</span><span class="tag">AWS</span></div></div>
+      <div class="sk-card anim d3"><div class="sk-glow"></div><span class="sk-ico">📈</span><div class="sk-name">Digital Marketing</div><div class="sk-desc">End-to-end campaign strategy — SEO, PPC, social media, email, content calendars, community management, and measurable growth.</div><div class="sk-tags"><span class="tag">SEO</span><span class="tag">PPC</span><span class="tag">Social Media</span><span class="tag">Analytics</span></div></div>
+      <div class="sk-card anim d4"><div class="sk-glow"></div><span class="sk-ico">⚡</span><div class="sk-name">AI & Automation</div><div class="sk-desc">Automating operations and content workflows with AI tools. Smart databases and dashboards that save hours weekly.</div><div class="sk-tags"><span class="tag">Notion</span><span class="tag">Airtable</span><span class="tag">ChatGPT</span><span class="tag">Napkin AI</span></div></div>
+      <div class="sk-card anim d5"><div class="sk-glow"></div><span class="sk-ico">📊</span><div class="sk-name">Pitch Decks & Strategy</div><div class="sk-desc">Investor-ready pitch decks, company profiles, strategic proposals, and financial models that have secured funding and client wins.</div><div class="sk-tags"><span class="tag">PowerPoint</span><span class="tag">Canva</span><span class="tag">Excel</span><span class="tag">Napkin</span></div></div>
+      <div class="sk-card anim d6"><div class="sk-glow"></div><span class="sk-ico">🎬</span><div class="sk-name">Video & Multimedia</div><div class="sk-desc">Brand storytelling through AI-powered video — HeyGen, Canva Video, social reels, and brand films that stop the scroll.</div><div class="sk-tags"><span class="tag">HeyGen</span><span class="tag">Canva Video</span><span class="tag">AI Voice</span><span class="tag">Reels</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="padding:8rem 0">
+  <div class="wrap">
+    <div class="s-lbl anim">Career Timeline</div>
+    <h2 class="s-ttl anim">Where I've <em>Made Impact</em></h2>
+    <div class="exp-wrap">
+      <div class="exp anim"><div><div class="e-yr">2024 – Present</div><div class="e-co">Elpazio Limited</div></div><div><div class="e-role">Brand & Digital Marketing Specialist</div><div class="e-desc">Leading brand strategy, visual communications, and digital campaigns for this 35-year-old technology solutions powerhouse serving Marriott, Sheraton, Radisson Blu, and NCC. Designed the complete 15-page company profile, letterhead system, full brand mockup suite, and ongoing digital marketing strategy.</div><div class="e-badge">✦ 15-page company profile · Full brand identity system · Website management</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2024 – Present</div><div class="e-co">Goodland Xclusive Company</div></div><div><div class="e-role">Brand Strategist & Creative Lead</div><div class="e-desc">Driving brand identity, marketing strategy, and visual storytelling across Goodland Xclusive and its 3 subsidiaries including Geycci Beauty & Wellness Spa. Managing multi-brand consistency, diaspora-targeted campaigns, and luxury market positioning.</div><div class="e-badge">✦ Active — 4-brand group management · Geycci · Real Estate · Hospitality</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2024</div><div class="e-co">Linkon Communications</div></div><div><div class="e-role">Marketing Lead — Starlink Rollout</div><div class="e-desc">Directed digital awareness campaigns for Starlink-powered internet rollout across Nigeria. Designed social media strategies that measurably boosted customer acquisition and drove consistent weekly sales growth.</div><div class="e-badge">✦ Increased weekly sales via targeted digital campaigns</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2022 – 2025</div><div class="e-co">Space Spectrum Ltd.</div></div><div><div class="e-role">Business Development Executive</div><div class="e-desc">Drove client acquisition and market expansion for an affordable housing and architectural services firm. Built lasting client relationships and spearheaded cross-functional growth initiatives across multiple markets.</div><div class="e-badge">✦ Expanded service reach across key target markets</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2021 – 2022</div><div class="e-co">DigiTalents Hub</div></div><div><div class="e-role">Digital Marketing Lead</div><div class="e-desc">Led digital campaigns for blockchain and fintech projects. Managed SEO, PPC, content strategy, and community building across Twitter, LinkedIn, and Telegram. Achieved 79% organic traffic growth through strategic execution.</div><div class="e-badge">✦ 79% organic traffic growth achieved</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2020 – Present</div><div class="e-co">HubConnect</div></div><div><div class="e-role">Founder & Brand Architect</div><div class="e-desc">Founded HubConnect — a digital marketplace connecting artisans, vendors, and service providers across Africa. Designed the full brand identity, UI/UX, infographic strategy, and marketing system from scratch. Pitched at the NIDCOM Diaspora Investment Summit.</div><div class="e-badge">✦ Pitched at NIDCOM Diaspora Investment Summit · 100+ brand assets created</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LIVE WORKS -->
+<section id="works" style="padding:7rem 0 0">
+  <div class="wrap" style="padding-bottom:3rem">
+    <div class="s-lbl anim">Live Projects</div>
+    <h2 class="s-ttl anim">The Work <em>Speaks</em></h2>
+    <p class="anim" style="color:var(--muted);max-width:480px;font-size:.9rem;line-height:1.78;margin-top:.5rem">Real brands. Live on the internet right now. Click through to see.</p>
+  </div>
+
+  <!-- GEYCCI -->
+  <div class="w-feat">
+    <div class="w-in">
+      <div class="w-browser anim al">
+        <div class="w-bar"><div class="w-dots"><span></span><span></span><span></span></div><div class="w-url">geycci.com</div></div>
+        <div class="w-screen" style="background:linear-gradient(160deg,#1a0a14,#2d0f22);flex-direction:column;gap:1.5rem">
+          <div style="text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:#e8b4c8;letter-spacing:.15em" class="float-anim">GEYCCI</div>
+            <div style="font-size:.68rem;letter-spacing:.28em;color:rgba(232,180,200,.5);text-transform:uppercase;margin:.4rem 0 1.5rem">Beauty & Wellness Spa · Abuja</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;max-width:360px">
+            <div style="background:rgba(255,255,255,.05);border:1px solid rgba(232,180,200,.15);padding:.75rem;border-radius:3px;text-align:center"><div style="font-size:.58rem;color:rgba(232,180,200,.45);text-transform:uppercase;letter-spacing:.1em">Membership</div><div style="font-family:'Playfair Display',serif;font-size:.95rem;color:#e8b4c8;margin-top:.2rem">₦589K+</div></div>
+            <div style="background:rgba(232,180,200,.08);border:1px solid rgba(232,180,200,.25);padding:.75rem;border-radius:3px;text-align:center"><div style="font-size:.58rem;color:rgba(232,180,200,.45);text-transform:uppercase;letter-spacing:.1em">Services</div><div style="font-family:'Playfair Display',serif;font-size:.95rem;color:#e8b4c8;margin-top:.2rem">6 Tiers</div></div>
+            <div style="background:rgba(255,255,255,.05);border:1px solid rgba(232,180,200,.15);padding:.75rem;border-radius:3px;text-align:center"><div style="font-size:.58rem;color:rgba(232,180,200,.45);text-transform:uppercase;letter-spacing:.1em">Platform</div><div style="font-family:'Playfair Display',serif;font-size:.95rem;color:#e8b4c8;margin-top:.2rem">WP</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="w-info anim ar" style="background:var(--surf)">
+        <div class="w-tag">WordPress · UI Design · Digital Marketing</div>
+        <h3 class="w-title">Geycci Beauty & Wellness Spa</h3>
+        <p class="w-desc">Abuja's luxury spa serving the city's elite. Built and manage the complete WordPress website, membership tiers system (₦589K–₦1.7M), booking flows, and the 2026 Marketing Campaign budget.</p>
+        <div class="w-buls"><div class="w-bul">WordPress website design & development</div><div class="w-bul">Membership tiers UX & pricing architecture</div><div class="w-bul">2026 Marketing Campaign strategy & budget (Excel)</div><div class="w-bul">Social media management (Facebook, IG, TikTok)</div></div>
+        <a href="https://geycci.com" target="_blank" class="w-lnk">Visit Live Site →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOODLAND -->
+  <div class="w-feat" style="background:var(--surf)">
+    <div class="w-in rv">
+      <div class="w-browser anim ar">
+        <div class="w-bar"><div class="w-dots"><span></span><span></span><span></span></div><div class="w-url">goodland.africa</div></div>
+        <div class="w-screen" style="background:linear-gradient(160deg,#0d1a0d,#152415);flex-direction:column;gap:1.5rem">
+          <div style="text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:#a8d4a8;letter-spacing:.08em" class="float-anim">GOODLAND</div>
+            <div style="font-size:.62rem;letter-spacing:.28em;color:rgba(168,212,168,.45);text-transform:uppercase;margin:.3rem 0 1.5rem">Real Estate & Hospitality Investment</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.5rem;max-width:320px;width:100%">
+            <div style="background:rgba(168,212,168,.06);border-left:2px solid rgba(168,212,168,.35);padding:.55rem 1rem"><div style="font-size:.6rem;color:rgba(168,212,168,.4);text-transform:uppercase;letter-spacing:.1em">Studio 7</div><div style="font-size:.83rem;color:#a8d4a8">7-Day Interior Transformation</div></div>
+            <div style="background:rgba(168,212,168,.06);border-left:2px solid rgba(168,212,168,.35);padding:.55rem 1rem"><div style="font-size:.6rem;color:rgba(168,212,168,.4);text-transform:uppercase;letter-spacing:.1em">Stay+</div><div style="font-size:.83rem;color:#a8d4a8">Hospitality Investment Starter Pack</div></div>
+            <div style="background:rgba(168,212,168,.06);border-left:2px solid rgba(168,212,168,.35);padding:.55rem 1rem"><div style="font-size:.6rem;color:rgba(168,212,168,.4);text-transform:uppercase;letter-spacing:.1em">Diaspora</div><div style="font-size:.83rem;color:#a8d4a8">Turnkey Buy & Setup Program</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="w-info anim al">
+        <div class="w-tag">WordPress · Brand Strategy · Content Management</div>
+        <h3 class="w-title">Goodland Xclusive & Group</h3>
+        <p class="w-desc">Design-led real estate and hospitality investment house operating across Abuja, Lagos, Accra, and diaspora markets. Managing brand strategy and digital presence across 4 brands.</p>
+        <div class="w-buls"><div class="w-bul">Multi-brand digital strategy (4 brands)</div><div class="w-bul">WordPress content management & updates</div><div class="w-bul">Investment packages copywriting & UX</div><div class="w-bul">Diaspora & luxury market campaigns</div></div>
+        <a href="https://goodland.africa/grid-no-gap/" target="_blank" class="w-lnk">Visit Live Site →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELPAZIO -->
+  <div class="w-feat">
+    <div class="w-in">
+      <div class="w-browser anim al">
+        <div class="w-bar"><div class="w-dots"><span></span><span></span><span></span></div><div class="w-url">elpazio.com</div></div>
+        <div class="w-screen" style="background:linear-gradient(160deg,#0a0d1a,#0f1828);flex-direction:column;gap:1.5rem">
+          <div style="display:flex;align-items:center;justify-content:center;gap:1rem" class="float-anim">
+            <div style="width:46px;height:46px;background:linear-gradient(135deg,#cc2222,#991111);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:serif;font-style:italic;font-weight:900;color:white;font-size:1.4rem">e</div>
+            <div><div style="font-weight:700;font-size:1.1rem;color:#dde4f0;letter-spacing:.1em">ELPAZIO</div><div style="font-size:.58rem;color:rgba(221,228,240,.3);letter-spacing:.2em">LIMITED</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;max-width:320px">
+            <div style="background:rgba(221,228,240,.04);border:1px solid rgba(221,228,240,.08);padding:.75rem"><div style="font-size:.58rem;color:#cc4444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem">Company Profile</div><div style="font-size:.78rem;color:#dde4f0">15-page document</div></div>
+            <div style="background:rgba(221,228,240,.04);border:1px solid rgba(221,228,240,.08);padding:.75rem"><div style="font-size:.58rem;color:#cc4444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem">Brand Identity</div><div style="font-size:.78rem;color:#dde4f0">Logo · Letterhead · Mockups</div></div>
+            <div style="background:rgba(221,228,240,.04);border:1px solid rgba(221,228,240,.08);padding:.75rem"><div style="font-size:.58rem;color:#cc4444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem">Key Clients</div><div style="font-size:.78rem;color:#dde4f0">Marriott · Sheraton · Radisson</div></div>
+            <div style="background:rgba(221,228,240,.04);border:1px solid rgba(221,228,240,.08);padding:.75rem"><div style="font-size:.58rem;color:#cc4444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem">Est.</div><div style="font-size:.78rem;color:#dde4f0">1990 · 35+ yrs industry</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="w-info anim ar" style="background:var(--surf)">
+        <div class="w-tag">Brand Design · Company Profile · Digital Strategy</div>
+        <h3 class="w-title">Elpazio Limited</h3>
+        <p class="w-desc">35-year-old technology solutions powerhouse serving Marriott, Sheraton, Radisson Blu, NCC, and Bouygues. Complete brand overhaul — 15-page company profile, letterhead, and full mockup suite.</p>
+        <div class="w-buls"><div class="w-bul">15-page company profile (print-ready)</div><div class="w-bul">Corporate letterhead & brand identity system</div><div class="w-bul">Brand mockup suite (cards, screens, stationery)</div><div class="w-bul">Website content & digital marketing strategy</div></div>
+        <a href="https://elpazio.com/services/" target="_blank" class="w-lnk">Visit Live Site →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="gal-sec" id="gallery">
+  <div class="s-lbl anim">Visual Design Portfolio</div>
+  <h2 class="s-ttl anim">Graphics That <em>Convert</em></h2>
+  <p class="anim" style="color:var(--muted);max-width:540px;font-size:.88rem;line-height:1.75;margin-top:.5rem">100+ social media graphics, brand visuals, infographics, and campaign creatives across 15+ brands — from fintech and logistics to hospitality and education.</p>
+  <div class="gal-grid anim">
+    <div class="gi w2 c1">
+      <div class="gi-icon">🎨</div>
+      <div class="gi-name">Social Media Campaign Library</div>
+      <div class="gi-sub">HubConnect · MartinezKnight · MatBrown · Stan-Nath</div>
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem">
+        <span style="background:rgba(122,184,232,.1);border:1px solid rgba(122,184,232,.2);color:#7ab8e8;font-size:.58rem;padding:.2rem .55rem;font-family:'DM Mono',monospace">50+ Graphics</span>
+        <span style="background:rgba(122,184,232,.1);border:1px solid rgba(122,184,232,.2);color:#7ab8e8;font-size:.58rem;padding:.2rem .55rem;font-family:'DM Mono',monospace">10+ Brands</span>
+        <span style="background:rgba(122,184,232,.1);border:1px solid rgba(122,184,232,.2);color:#7ab8e8;font-size:.58rem;padding:.2rem .55rem;font-family:'DM Mono',monospace">Canva Pro</span>
+      </div>
+      <div class="gi-over"><div class="gi-ol">View Full Graphics Library on Notion</div><div class="gi-os" style="margin-top:.4rem"><a href="https://martinezknight.notion.site/Martins-Ogundare-237cef2b2d2d80d6b4cdf80b743b95e2" target="_blank" style="color:var(--acc);text-decoration:none">Open Portfolio →</a></div></div>
+    </div>
+    <div class="gi c2"><div class="gi-icon">🖌️</div><div class="gi-name">Brand Identity Systems</div><div class="gi-sub">Logos · Color · Typography</div><div class="gi-over"><div class="gi-ol">Brand Identity Work</div><div class="gi-os">Logos, systems & guidelines</div></div></div>
+    <div class="gi c3"><div class="gi-icon">📱</div><div class="gi-name">Social Media Reels</div><div class="gi-sub">IG · Facebook · TikTok</div><div class="gi-over"><div class="gi-ol">Social Content</div><div class="gi-os">Reels, posts & campaigns</div></div></div>
+    <div class="gi c4"><div class="gi-icon">📊</div><div class="gi-name">Infographics</div><div class="gi-sub">Strategy · Data · Process</div><div class="gi-over"><div class="gi-ol">Strategic Infographics</div><div class="gi-os">SWOT · Revenue · UX Maps</div></div></div>
+    <div class="gi c5"><div class="gi-icon">👕</div><div class="gi-name">Brand Mockups</div><div class="gi-sub">Merch · Print · Digital</div><div class="gi-over"><div class="gi-ol">Brand Merchandise</div><div class="gi-os">Caps, tees, mugs, banners</div></div></div>
+    <div class="gi c6"><div class="gi-icon">🎬</div><div class="gi-name">Video Production</div><div class="gi-sub">HeyGen · AI Voice · Reels</div><div class="gi-over"><div class="gi-ol">AI Video Content</div><div class="gi-os">HeyGen · Canva · AI Voice</div></div></div>
+    <div class="gi c7"><div class="gi-icon">📋</div><div class="gi-name">Pitch Decks</div><div class="gi-sub">Investor · Proposals · Reports</div><div class="gi-over"><div class="gi-ol">Pitch Decks & Proposals</div><div class="gi-os">Investor-ready presentations</div></div></div>
+    <div class="gi c8 w2" style="flex-direction:row;gap:3rem;flex-wrap:wrap;justify-content:center">
+      <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--acc)" class="cnt" data-t="100">100</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem">Designs Delivered</div></div>
+      <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--acc)" class="cnt" data-t="15">15</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem">Brands Served</div></div>
+      <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--acc)" class="cnt" data-t="7">7</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem">Industries</div></div>
+      <a href="https://martinezknight.notion.site/Martins-Ogundare-237cef2b2d2d80d6b4cdf80b743b95e2" target="_blank" style="background:var(--acc);color:#080808;padding:.8rem 2rem;font-weight:700;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;align-self:center">Full Portfolio →</a>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND MOCKUPS -->
+<div style="background:var(--bg);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:7rem 5rem">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="s-lbl anim">Brand Merchandise & Print</div>
+    <h2 class="s-ttl anim" style="margin-bottom:.5rem">Mockups That <em>Build Brand Worlds</em></h2>
+    <p class="anim" style="color:var(--muted);max-width:540px;font-size:.88rem;line-height:1.75;margin-bottom:2.5rem">From caps, t-shirts and umbrellas to rollup banners and mugs — complete brand merchandise systems for HubConnect, Stan-Nath, and more.</p>
+    <div class="mk-grid anim">
+      <div class="mk-item" style="background:linear-gradient(135deg,#1a0a14,#2d0f22)">
+        <span class="mk-icon">👜</span>
+        <div class="mk-name" style="color:#e8b4c8">HubConnect Merch Suite</div>
+        <div class="mk-sub" style="color:rgba(232,180,200,.5)">Caps · T-Shirts · Umbrella · Lanyard · Mug</div>
+        <div class="mk-hover"><div class="mk-ht">HubConnect Brand Merchandise</div><div class="mk-hs">Full merch system · Web mockup · Branded mug</div></div>
+      </div>
+      <div class="mk-item" style="background:linear-gradient(135deg,#1a0505,#2a0808)">
+        <span class="mk-icon">🧢</span>
+        <div class="mk-name" style="color:#e8a8a8">Stan-Nath Global Logistics</div>
+        <div class="mk-sub" style="color:rgba(232,168,168,.5)">Caps (Black & Red) · T-Shirts · #LogisticsYouCanTrust</div>
+        <div class="mk-hover"><div class="mk-ht">Stan-Nath Logistics Brand</div><div class="mk-hs">Full merch suite · Print collateral · Uniforms</div></div>
+      </div>
+      <div class="mk-item" style="background:linear-gradient(135deg,#0d150d,#152015)">
+        <span class="mk-icon">📄</span>
+        <div class="mk-name" style="color:#a8d4a8">Print & Collateral</div>
+        <div class="mk-sub" style="color:rgba(168,212,168,.5)">Roll-up Banners · Flyers · Service Sheets · Stationery</div>
+        <div class="mk-hover"><div class="mk-ht">Print-Ready Design System</div><div class="mk-hs">Banners · Flyers · Staff uniforms · Letterheads</div></div>
+      </div>
+    </div>
+    <div class="anim" style="margin-top:1.5rem;display:flex;gap:.6rem;flex-wrap:wrap">
+      <span class="tag" style="font-size:.7rem;padding:.3rem .8rem">T-Shirts</span>
+      <span class="tag" style="font-size:.7rem;padding:.3rem .8rem">Caps & Headwear</span>
+      <span class="tag" style="font-size:.7rem;padding:.3rem .8rem">Flyers & Brochures</span>
+      <span class="tag" style="font-size:.7rem;padding:.3rem .8rem">Roll-up Banners</span>
+      <span class="tag" style="font-size:.7rem;padding:.3rem .8rem">Branded Mugs & Lanyards</span>
+      <span class="tag" style="font-size:.7rem;padding:.3rem .8rem">Web Mockups</span>
+      <span class="tag" style="font-size:.7rem;padding:.3rem .8rem">Staff Uniforms</span>
+    </div>
+  </div>
+</div>
+
+<!-- INFOGRAPHICS -->
+<div style="background:var(--surf);border-bottom:1px solid var(--bdr);padding:7rem 5rem">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="s-lbl anim">Strategic Thinking Visualised</div>
+    <h2 class="s-ttl anim" style="margin-bottom:.5rem">Infographics That <em>Tell the Story</em></h2>
+    <p class="anim" style="color:var(--muted);max-width:580px;font-size:.88rem;line-height:1.75;margin-bottom:2.5rem">Complex strategies made clear — SWOT, revenue forecasts, user journey maps, growth models. This is where design meets business intelligence.</p>
+    <div class="info-grid anim">
+      <div class="inf c1">
+        <div class="inf-icon">🔄</div>
+        <div class="inf-name">Program Optimization & User Engagement Cycles</div>
+        <div class="inf-sub">HubConnect Strategic Diagrams</div>
+        <div class="inf-pills"><span class="inf-pill">Cycle Diagrams</span><span class="inf-pill">User Flow</span><span class="inf-pill">Napkin AI</span></div>
+      </div>
+      <div class="inf c2">
+        <div class="inf-icon">📈</div>
+        <div class="inf-name">Revenue Forecast & 6-Month Scaling Plan</div>
+        <div class="inf-sub">SWOT · 3P Model · Expansion Timeline</div>
+        <div class="inf-pills"><span class="inf-pill">Financial Models</span><span class="inf-pill">Scaling</span></div>
+      </div>
+    </div>
+    <div class="info-grid2 anim">
+      <div class="inf c3" style="min-height:240px">
+        <div class="inf-icon">🧩</div>
+        <div class="inf-name">Pillars of Strategic Vision</div>
+        <div class="inf-sub">Pursuit · Plan · Planet</div>
+      </div>
+      <div class="inf c4" style="min-height:240px">
+        <div class="inf-icon">🗺️</div>
+        <div class="inf-name">User Journey & Onboarding Maps</div>
+        <div class="inf-sub">Registration · Activation · Growth Ladder</div>
+      </div>
+      <div class="inf c5" style="min-height:240px">
+        <div class="inf-icon">📋</div>
+        <div class="inf-name">SWOT & Stakeholder Analysis</div>
+        <div class="inf-sub">Waste-to-Wealth · Profit Distribution</div>
+      </div>
+    </div>
+    <div class="sbadges anim">
+      <div class="sb"><div class="sb-v">SWOT</div><div class="sb-l">Analysis Design</div></div>
+      <div class="sb"><div class="sb-v">6-Mo</div><div class="sb-l">Revenue Forecasts</div></div>
+      <div class="sb"><div class="sb-v">UX</div><div class="sb-l">Journey Mapping</div></div>
+      <div class="sb"><div class="sb-v">3P</div><div class="sb-l">Strategic Models</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO -->
+<div style="background:var(--bg);border-bottom:1px solid var(--bdr);padding:7rem 5rem">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="s-lbl anim">Video Production</div>
+    <h2 class="s-ttl anim" style="margin-bottom:.5rem">AI-Powered <em>Video Content</em></h2>
+    <p class="anim" style="color:var(--muted);font-size:.88rem;line-height:1.75;margin-bottom:2.5rem;max-width:480px">Creating engaging video content using HeyGen, Canva, and AI tools for brand storytelling, campaigns, and social media.</p>
+    <div class="vid-grid anim">
+      <a href="https://youtu.be/G2GkN5lQK5E" target="_blank" class="vid-card">
+        <div class="vid-thumb" style="background:linear-gradient(135deg,#1a1a08,#252512)">
+          <div class="vid-pulse" style="background:rgba(232,197,71,.18)"></div>
+          <div class="vid-play" style="background:var(--acc)"></div>
+          <div class="vid-lbl">Brand Promotional Video</div>
+          <div class="vid-sub">HeyGen + Canva AI Production</div>
+        </div>
+        <div class="vid-meta">
+          <div class="vid-plat">▶ YouTube</div>
+          <div class="vid-lnk">youtu.be/G2GkN5lQK5E →</div>
+        </div>
+      </a>
+      <a href="https://web.facebook.com/share/v/16X4oejRvX/" target="_blank" class="vid-card">
+        <div class="vid-thumb" style="background:linear-gradient(135deg,#0a0f1a,#10182a)">
+          <div class="vid-pulse" style="background:rgba(24,119,242,.2)"></div>
+          <div class="vid-play" style="background:#1877f2"></div>
+          <div class="vid-lbl">Social Media Campaign Video</div>
+          <div class="vid-sub">Canva Video + AI Voiceover</div>
+        </div>
+        <div class="vid-meta">
+          <div class="vid-plat">▶ Facebook</div>
+          <div class="vid-lnk">Watch on Facebook →</div>
+        </div>
+      </a>
+    </div>
+    <div class="anim" style="margin-top:1.5rem;padding:1.5rem 2rem;border:1px solid var(--bdr);background:var(--surf);display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+      <div style="font-family:'DM Mono',monospace;font-size:.67rem;color:var(--acc);letter-spacing:.16em;text-transform:uppercase;flex-shrink:0">Video Tools</div>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+        <span class="tag" style="font-size:.74rem;padding:.28rem .75rem">HeyGen AI</span>
+        <span class="tag" style="font-size:.74rem;padding:.28rem .75rem">Canva Video</span>
+        <span class="tag" style="font-size:.74rem;padding:.28rem .75rem">AI Voiceover</span>
+        <span class="tag" style="font-size:.74rem;padding:.28rem .75rem">Social Reels</span>
+        <span class="tag" style="font-size:.74rem;padding:.28rem .75rem">Brand Films</span>
+        <span class="tag" style="font-size:.74rem;padding:.28rem .75rem">Instagram Videos</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="tools-sec">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="s-lbl anim">Tech Stack</div>
+    <h2 class="s-ttl anim" style="font-size:2rem">Tools I <em>Live In</em></h2>
+    <div class="tools-cloud anim">
+      <div class="tp"><span class="td"></span>WordPress</div><div class="tp"><span class="td"></span>Elementor</div><div class="tp"><span class="td"></span>HTML / CSS</div><div class="tp"><span class="td"></span>Canva Pro</div><div class="tp"><span class="td"></span>HeyGen AI</div><div class="tp"><span class="td"></span>Notion</div><div class="tp"><span class="td"></span>Airtable</div><div class="tp"><span class="td"></span>ChatGPT / AI Tools</div><div class="tp"><span class="td"></span>Microsoft Excel</div><div class="tp"><span class="td"></span>Microsoft Word</div><div class="tp"><span class="td"></span>PowerPoint</div><div class="tp"><span class="td"></span>Google Analytics</div><div class="tp"><span class="td"></span>AWS Cloud</div><div class="tp"><span class="td"></span>Figma</div><div class="tp"><span class="td"></span>Napkin AI</div><div class="tp"><span class="td"></span>SEO Tools</div><div class="tp"><span class="td"></span>PPC / Google Ads</div><div class="tp"><span class="td"></span>Video Editing</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="cta-sec" id="contact">
+  <div class="cta-bg">HIRE</div>
+  <h2 class="cta-t">Ready to hire someone<em>who actually delivers?</em></h2>
+  <p class="cta-s">Open to remote roles globally. Based in Abuja, Nigeria. Available for full-time, contract, or project-based engagements.</p>
+  <div class="cta-lnks">
+    <a href="mailto:ogundaremartinsagbahiwe@gmail.com" class="cl">✉ Email Me</a>
+    <a href="https://linkedin.com/in/martins-ogundare-1b3803188/" target="_blank" class="cl">💼 LinkedIn</a>
+    <a href="https://hubconnecthq.com/" target="_blank" class="cl ol">🌐 HubConnect</a>
+    <a href="https://martinsogundare.start.page" target="_blank" class="cl ol">📋 All Links</a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Martins Ogundare — All rights reserved</span>
+  <span>ABUJA, NIGERIA · AVAILABLE GLOBALLY</span>
+</footer>
+
+<script>
+// ── LOADER ─────────────────────────────────────────────────────────
+(function(){
+  const pct = document.getElementById('ldpct');
+  let n = 0;
+  const iv = setInterval(()=>{
+    n = Math.min(n + Math.floor(Math.random()*8+3), 100);
+    if(pct) pct.textContent = n + '%';
+    if(n>=100){ clearInterval(iv); finish(); }
+  }, 60);
+  function finish(){
+    setTimeout(()=>{
+      const l = document.getElementById('loader');
+      l.style.opacity = '0';
+      setTimeout(()=>{ l.style.display='none'; startCounters(); }, 800);
+    }, 200);
+  }
+})();
+
+// ── CURSOR ──────────────────────────────────────────────────────────
+const cur = document.getElementById('cur');
+const curR = document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+(function animR(){
+  rx += (mx-rx)*.1; ry += (my-ry)*.1;
+  curR.style.left=rx+'px'; curR.style.top=ry+'px';
+  requestAnimationFrame(animR);
+})();
+document.querySelectorAll('a,button,.sk-card,.tp,.gi,.inf,.mk-item,.vid-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ curR.style.width='52px'; curR.style.height='52px'; curR.style.borderColor='rgba(232,197,71,.7)'; });
+  el.addEventListener('mouseleave',()=>{ curR.style.width='32px'; curR.style.height='32px'; curR.style.borderColor='rgba(232,197,71,.35)'; });
+});
+
+// ── NAV ─────────────────────────────────────────────────────────────
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('s', window.scrollY>50); });
+
+// ── PARTICLES ───────────────────────────────────────────────────────
+const canvas = document.getElementById('particles');
+if(canvas){
+  const ctx = canvas.getContext('2d');
+  let pts = [];
+  function rsz(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
+  rsz(); window.addEventListener('resize', rsz);
+  for(let i=0;i<60;i++) pts.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35, r:Math.random()*1.4+.3, a:Math.random()*.4+.1 });
+  (function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0; if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=`rgba(232,197,71,${p.a})`; ctx.fill(); });
+    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){ const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy); if(d<110){ ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.strokeStyle=`rgba(232,197,71,${.07*(1-d/110)})`; ctx.lineWidth=.5; ctx.stroke(); } }
+    requestAnimationFrame(draw);
+  })();
+}
+
+// ── FLOATING HERO ELEMENTS ──────────────────────────────────────────
+document.querySelectorAll('.float-anim').forEach((el,i)=>{
+  el.style.animation = `floatY 3.5s ${i*.8}s ease-in-out infinite`;
+});
+const fStyle = document.createElement('style');
+fStyle.textContent = '@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}';
+document.head.appendChild(fStyle);
+
+// ── TYPING HERO WORD ─────────────────────────────────────────────────
+const words = ['Creates.', 'Designs.', 'Builds.', 'Grows.', 'Delivers.'];
+let wi=0, ci=0, deleting=false;
+const outEl = document.getElementById('outWord');
+function typeWord(){
+  if(!outEl) return;
+  const w = words[wi];
+  if(!deleting){ outEl.textContent = w.slice(0,ci); ci++; if(ci>w.length){ deleting=true; setTimeout(typeWord,1800); return; } }
+  else { outEl.textContent = w.slice(0,ci); ci--; if(ci<0){ deleting=false; wi=(wi+1)%words.length; ci=0; } }
+  setTimeout(typeWord, deleting ? 60 : 90);
+}
+setTimeout(typeWord, 2400);
+
+// ── SCROLL REVEAL (local-file safe) ────────────────────────────────
+// Content visible by default. JS adds anim class AFTER load, then triggers reveal.
+function initReveal(){
+  const els = document.querySelectorAll('.anim');
+  // First pass: mark everything visible immediately
+  els.forEach(el => el.classList.add('on'));
+  // Then after a tiny delay, remove 'on' from off-screen elements to set up animation
+  setTimeout(()=>{
+    els.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if(r.top > window.innerHeight + 20){
+        el.classList.add('anim-ready');
+        el.classList.remove('on');
+      }
+    });
+    function revealAll(){
+      document.querySelectorAll('.anim.anim-ready:not(.on)').forEach(el=>{
+        if(el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.add('on');
+      });
+    }
+    window.addEventListener('scroll', revealAll, {passive:true});
+    revealAll();
+  }, 300);
+}
+initReveal();
+
+// ── SKILL CARD GLOW ──────────────────────────────────────────────────
+document.querySelectorAll('.sk-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--gx', ((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--gy', ((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+
+// ── COUNTERS ───────────────────────────────────────────────────────
+function startCounters(){
+  document.querySelectorAll('.cnt').forEach(el=>{
+    const target = parseInt(el.dataset.t);
+    let v=0; const dur=1600;
+    const start = performance.now();
+    function step(now){ const p=Math.min((now-start)/dur,1); const ease=1-Math.pow(1-p,3); el.textContent=Math.floor(ease*target); if(p<1)requestAnimationFrame(step); else el.textContent=target; }
+    requestAnimationFrame(step);
+  });
+}
+
+// ── HOVER TILT on STAT CARDS ─────────────────────────────────────────
+document.querySelectorAll('.stat').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width-.5)*10;
+    const y=((e.clientY-r.top)/r.height-.5)*10;
+    el.style.transform=`perspective(400px) rotateX(${-y}deg) rotateY(${x}deg) translateZ(4px)`;
+  });
+  el.addEventListener('mouseleave',()=>{ el.style.transform=''; el.style.transition='transform .5s'; setTimeout(()=>el.style.transition='',500); });
+});
+</script>
+</body>
+</html>
