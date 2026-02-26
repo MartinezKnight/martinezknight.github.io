@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Media Graphics — Martins Ogundare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --off-white: #f5f2ec;
+      --gold: #c9a84c;
+      --teal: #00b4d8;
+      --dark-gray: #1c1c1c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--off-white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px; pointer-events: none; z-index: 1; opacity: 0.3;
+    }
+
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--teal); z-index: 9998; width: 0;
+    }
+
+    /* ---- TOP NAV: scoped strictly to #main-nav ---- */
+    #main-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9000;
+      padding: 22px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+    #main-nav.scrolled {
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1e1e1e;
+    }
+    #main-nav .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 0.15em;
+      color: var(--gold); text-decoration: none; flex-shrink: 0;
+    }
+    #main-nav .nav-list {
+      display: flex; gap: 24px; list-style: none; align-items: center;
+    }
+    #main-nav .nav-list a {
+      text-decoration: none; font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(245,242,236,0.5); transition: color 0.3s; white-space: nowrap;
+    }
+    #main-nav .nav-list a:hover { color: var(--gold); }
+    #main-nav .nav-list a.active { color: var(--gold); }
+
+    @media (max-width: 900px) {
+      #main-nav { padding: 18px 24px; }
+      #main-nav .nav-list { gap: 14px; }
+      #main-nav .nav-list a { font-size: 10px; }
+    }
+    @media (max-width: 600px) {
+      #main-nav .nav-list { display: none; }
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 52vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 140px 60px 72px;
+      position: relative; overflow: hidden;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(0,180,216,0.06) 0%, transparent 60%);
+    }
+    .hero-watermark {
+      position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(120px, 20vw, 260px);
+      color: transparent; -webkit-text-stroke: 1px rgba(0,180,216,0.07);
+      line-height: 1; pointer-events: none; user-select: none;
+    }
+    .breadcrumb {
+      font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      animation: fadeUp 0.7s 0.2s both; position: relative; z-index: 2;
+    }
+    .breadcrumb a { color: rgba(201,168,76,0.5); text-decoration: none; transition: color 0.3s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(44px, 7.5vw, 108px);
+      font-weight: 900; line-height: 0.9; letter-spacing: -0.02em;
+      animation: fadeUp 0.7s 0.35s both; position: relative; z-index: 2;
+    }
+    .hero h1 em { font-style: italic; color: var(--teal); }
+    .hero-sub {
+      max-width: 500px; margin-top: 24px;
+      font-size: 15px; line-height: 1.7;
+      color: rgba(245,242,236,0.5); font-weight: 300;
+      animation: fadeUp 0.7s 0.5s both; position: relative; z-index: 2;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) { .hero { padding: 120px 24px 60px; } }
+
+    /* ---- FILTERS ---- */
+    .filters-wrap {
+      padding: 40px 60px 28px;
+      display: flex; gap: 8px; flex-wrap: wrap;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .filter-btn {
+      background: none;
+      border: 1px solid rgba(245,242,236,0.12);
+      color: rgba(245,242,236,0.45);
+      padding: 8px 20px; border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .filter-btn:hover { border-color: rgba(0,180,216,0.4); color: var(--teal); }
+    .filter-btn.active { background: var(--teal); border-color: var(--teal); color: var(--black); font-weight: 600; }
+    @media (max-width: 768px) { .filters-wrap { padding: 28px 24px 20px; } }
+
+    /* ---- GALLERY ---- */
+    .gallery-wrap { padding: 48px 60px 80px; }
+    @media (max-width: 768px) { .gallery-wrap { padding: 32px 24px 60px; } }
+
+    .gallery { columns: 3; column-gap: 14px; }
+    @media (max-width: 1100px) { .gallery { columns: 2; } }
+    @media (max-width: 580px)  { .gallery { columns: 1; } }
+
+    .card {
+      break-inside: avoid; margin-bottom: 14px;
+      position: relative; overflow: hidden;
+      border-radius: 6px; cursor: pointer; background: var(--dark-gray);
+    }
+    .card img { width: 100%; display: block; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .card:hover img { transform: scale(1.04); }
+
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 22px;
+    }
+    .card:hover .card-overlay { opacity: 1; }
+    .card-brand { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; line-height: 1.2; }
+    .card-tag { font-size: 10px; color: rgba(245,242,236,0.45); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.15em; }
+    .card-zoom {
+      position: absolute; top: 14px; right: 14px;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(0,180,216,0.9);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.7);
+      transition: opacity 0.3s, transform 0.3s;
+      font-size: 16px; color: var(--black);
+    }
+    .card:hover .card-zoom { opacity: 1; transform: scale(1); }
+    .card.hidden { display: none; }
+
+    /* ---- LIGHTBOX ---- */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(10,10,10,0.96);
+      display: none; align-items: center; justify-content: center;
+      padding: 40px; backdrop-filter: blur(8px);
+    }
+    .lightbox.open { display: flex; }
+    .lb-inner { position: relative; max-width: 860px; max-height: 90vh; width: 100%; }
+    .lb-inner img { width: 100%; max-height: 78vh; object-fit: contain; border-radius: 6px; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
+    .lb-close {
+      position: fixed; top: 28px; right: 36px;
+      background: none; border: 1px solid rgba(245,242,236,0.2);
+      color: var(--off-white); font-size: 20px;
+      width: 46px; height: 46px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .lb-close:hover { background: var(--teal); border-color: var(--teal); color: var(--black); }
+    .lb-info { margin-top: 18px; text-align: center; }
+    .lb-brand-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
+    .lb-title-label { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+    .lb-arrow {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: none; border: 1px solid rgba(245,242,236,0.2);
+      color: var(--off-white); font-size: 26px;
+      width: 50px; height: 50px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .lb-arrow:hover { background: var(--teal); border-color: var(--teal); color: var(--black); }
+    .lb-prev { left: 24px; }
+    .lb-next { right: 24px; }
+
+    /* ---- TICKER ---- */
+    .ticker {
+      border-top: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e;
+      padding: 14px 0; overflow: hidden; white-space: nowrap;
+    }
+    .ticker-track { display: inline-flex; gap: 60px; animation: ticker-scroll 35s linear infinite; }
+    @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ticker-item { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.2em; color: rgba(245,242,236,0.2); text-transform: uppercase; }
+    .ticker-dot { color: var(--gold); margin-right: 8px; }
+
+    /* ---- FOOTER: uses <footer> tag + plain divs only, no <nav> ---- */
+    .site-footer {
+      border-top: 1px solid #1e1e1e; padding: 40px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 24px; flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif; font-size: 24px;
+      letter-spacing: 0.1em; color: var(--gold); text-decoration: none;
+    }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(245,242,236,0.3); text-decoration: none; transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 12px; color: rgba(245,242,236,0.2); }
+    @media (max-width: 768px) {
+      .site-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollBar"></div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lbClose">✕</button>
+    <button class="lb-arrow lb-prev" id="lbPrev">‹</button>
+    <button class="lb-arrow lb-next" id="lbNext">›</button>
+    <div class="lb-inner">
+      <img src="" id="lbImg" alt="" />
+      <div class="lb-info">
+        <div class="lb-brand-label" id="lbBrand"></div>
+        <div class="lb-title-label" id="lbTitle"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP NAV -->
+  <header id="main-nav">
+    <a href="index.html" class="logo">M. Ogundare</a>
+    <ul class="nav-list">
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="works.html">Works</a></li>
+      <li><a href="pitchdeck.html">Pitch Decks</a></li>
+      <li><a href="mockups.html">Mockups</a></li>
+      <li><a href="infographics.html">Infographics</a></li>
+      <li><a href="videos.html">Videos</a></li>
+      <li><a href="index.html#contact">Hire Me</a></li>
+    </ul>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-watermark">ART</div>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> &nbsp;✦&nbsp;
+      <a href="works.html">All Works</a> &nbsp;✦&nbsp;
+      Graphics
+    </div>
+    <h1>Social Media<br /><em>Graphics</em></h1>
+    <p class="hero-sub">Instagram posts, promotional banners, engagement content & brand social assets crafted for 15+ clients across Nigeria.</p>
+  </section>
+
+  <!-- FILTERS -->
+  <div class="filters-wrap">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="martinez">MartinezKnight</button>
+    <button class="filter-btn" data-filter="stannath">Stannath Logistics</button>
+    <button class="filter-btn" data-filter="hubconnect">Hub Connect</button>
+    <button class="filter-btn" data-filter="social">Engagement Posts</button>
+    <button class="filter-btn" data-filter="other">Other Clients</button>
+  </div>
+
+  <!-- GALLERY
+       All images use FLAT paths (filename only).
+       All HTML + image files must be in the SAME folder. -->
+  <div class="gallery-wrap">
+    <div class="gallery" id="gallery">
+
+      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Win Online with Digital Marketing">
+        <img src="Martinez_Knight_Graph._03.png" alt="Digital Marketing" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Win Online with Digital Marketing</div><div class="card-tag">Promo · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Global Logistics" data-title="Routes & Rates">
+        <img src="STAN-NATH_LOGISTICS_IG_.png" alt="Routes and Rates" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Routes & Rates</div><div class="card-tag">Info · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Monday Motivation">
+        <img src="_Monday_Motivation_(1).png" alt="Monday Motivation" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Monday Motivation</div><div class="card-tag">Motivational · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Let Us Sprinkle Our Magic">
+        <img src="EW_3.png" alt="Digital Magic" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Let Us Sprinkle Our Magic</div><div class="card-tag">Promo · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect Show" data-title="Join the Conversation">
+        <img src="www.thehubconnectshow.com_(1)" alt="Hub Connect Show" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect Show</div><div class="card-title">Join the Conversation</div><div class="card-tag">Awareness · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Monday Motivation Series">
+        <img src="SNGL_Monday_Motivation.png" alt="Monday Motivation SNGL" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Monday Motivation Series</div><div class="card-tag">Motivational · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Global Logistics" data-title="Big Achievements Start with One Delivery">
+        <img src="S_1.png" alt="Big Achievements" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Big Achievements Start with One Delivery</div><div class="card-tag">Brand · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="HCNL Campaign">
+        <img src="HCNL_8.png" alt="Hub Connect NL" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">HCNL Campaign</div><div class="card-tag">Campaign · Digital Ad</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="other" data-brand="Personal / Event" data-title="Birthday Design">
+        <img src="Birthday_Design.jpeg" alt="Birthday Design" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Personal / Event</div><div class="card-title">Birthday Design</div><div class="card-tag">Celebration · Graphic</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Smiles & Shopping">
+        <img src="Smiles_and_Shopping_with_Hub_Connect.png" alt="Smiles and Shopping" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Smiles & Shopping</div><div class="card-tag">Brand · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="other" data-brand="Fitness Brand" data-title="Fitness Instagram Post">
+        <img src="Pink_Modern_Fitness_Gym_Instagram_Post_2.png" alt="Fitness Post" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Fitness Brand</div><div class="card-title">Fitness Instagram Post</div><div class="card-tag">Lifestyle · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Thank God It's Friday">
+        <img src="TGIF.png" alt="TGIF" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Thank God It's Friday</div><div class="card-tag">Engagement · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="WhatsApp Promotions">
+        <img src="HCWHATSAPP_PROMOTIONS_4.png" alt="WhatsApp Promotions" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">WhatsApp Promotions</div><div class="card-tag">Campaign · WhatsApp Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="How Are You Finding Jobs?">
+        <img src="How_Are_You_Finding_Jobs_.png" alt="How Are You Finding Jobs" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">How Are You Finding Jobs?</div><div class="card-tag">Survey · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Buy, Sell & Book Easily">
+        <img src="Hub_Connect_Buy_Sell_Book_Easily.png" alt="Buy Sell Book" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Buy, Sell & Book Easily</div><div class="card-tag">Feature · Digital Ad</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="other" data-brand="CheapMove.ng" data-title="Cargo Services — 50% Off">
+        <img src="cheap_move.png" alt="CheapMove Cargo" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">CheapMove.ng</div><div class="card-title">Cargo Services — 50% Off</div><div class="card-tag">Promo · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="TGIF — Quick & Excellent Deliveries">
+        <img src="KG_1.png" alt="TGIF Orange" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">TGIF — Quick & Excellent Deliveries</div><div class="card-tag">Engagement · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="other" data-brand="Youth Tech Centre" data-title="Transition to Tech in 16 Weeks">
+        <img src="YTD.png" alt="Youth Tech Dev Centre" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Youth Tech Centre</div><div class="card-title">Transition to Tech in 16 Weeks</div><div class="card-tag">Education · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Reliable Home Delivery">
+        <img src="5.png" alt="Home Delivery" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Reliable Home Delivery</div><div class="card-tag">Service · Digital Ad</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Are You A Carpenter?">
+        <img src="8.png" alt="Carpenter Hub Connect" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Are You A Carpenter?</div><div class="card-tag">Recruitment · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Price List — Lagos Routes">
+        <img src="9.png" alt="Price List" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Price List — Lagos Routes</div><div class="card-tag">Info · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Earn Daily. Work on Your Own Terms.">
+        <img src="12.png" alt="Earn Daily" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Earn Daily. Work on Your Own Terms.</div><div class="card-tag">Platform · Digital Ad</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="other" data-brand="OX10 Cloud Consults" data-title="Become a Cloud/DevOps Engineer">
+        <img src="18.png" alt="Cloud DevOps" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">OX10 Cloud Consults</div><div class="card-title">Become a Cloud/DevOps Engineer</div><div class="card-tag">Education · Promo</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Price List — Lagos Routes">
+        <img src="19.png" alt="Stannath Price List" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Price List — Lagos Routes</div><div class="card-tag">Info · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="social" data-brand="@thebellenneka" data-title="Thank You — Milestone Post">
+        <img src="71.png" alt="Thank You" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Personal Brand</div><div class="card-title">Thank You — Milestone Post</div><div class="card-tag">Personal Brand · Social</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Shop with Multiple Options">
+        <img src="73.png" alt="Shop Multiple Options" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Shop with Multiple Options</div><div class="card-tag">Marketplace · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="other" data-brand="Youth Tech Centre" data-title="Tech Training Programme">
+        <img src="21.png" alt="Youth Tech" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Youth Tech Centre</div><div class="card-title">Tech Training Programme</div><div class="card-tag">Education · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Happy New Year 2025">
+        <img src="GtocbT6a0AQY-la.jpg" alt="Happy New Year" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Happy New Year 2025</div><div class="card-tag">Seasonal · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="martinez" data-brand="MartinezKnight" data-title="Unlock Your Success">
+        <img src="WhatsApp_Image_2024-11-20_at_20.43.40_de34367e_(1).jpg" alt="Unlock Your Success" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Unlock Your Success</div><div class="card-tag">Company Profile · Flyer</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="martinez" data-brand="MartinezKnight" data-title="Hello September">
+        <img src="1_(1).png" alt="Hello September" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Hello September</div><div class="card-tag">Seasonal · Social Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Joyful Connections">
+        <img src="Joyful_Connections_and_Bright_Aspirations_(2).png" alt="Joyful Connections" loading="lazy" />
+        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Joyful Connections</div><div class="card-tag">Brand · Instagram Post</div></div>
+        <div class="card-zoom">↗</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <!-- FOOTER — <footer> tag + plain divs only. NO <nav> tag here. -->
+  <footer class="site-footer">
+    <a href="index.html" class="footer-logo">M. Ogundare</a>
+    <div class="footer-links">
+      <a href="works.html">← All Works</a>
+      <a href="pitchdeck.html">Pitch Decks</a>
+      <a href="mockups.html">Mockups</a>
+      <a href="infographics.html">Infographics</a>
+      <a href="videos.html">Videos</a>
+    </div>
+    <div class="footer-copy">© 2025 Martins Ogundare</div>
+  </footer>
+
+  <script>
+    // Scroll progress + sticky nav
+    const scrollBar = document.getElementById('scrollBar');
+    const mainNav   = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+      scrollBar.style.width = pct + '%';
+      mainNav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Ticker (doubled for seamless loop)
+    const tickerTrack = document.getElementById('tickerTrack');
+    const words = ['Social Media Graphics','Instagram Posts','Promotional Banners','Brand Assets','Engagement Content','Event Graphics','Seasonal Posts','Campaign Visuals'];
+    const tickerHTML = words.map(w => `<span class="ticker-item"><span class="ticker-dot">✦</span>${w}</span>`).join('');
+    tickerTrack.innerHTML = tickerHTML + tickerHTML;
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.card').forEach(card => {
+          card.classList.toggle('hidden', f !== 'all' && card.dataset.category !== f);
+        });
+      });
+    });
+
+    // Lightbox
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
+    const lbBrand = document.getElementById('lbBrand');
+    const lbTitle = document.getElementById('lbTitle');
+    let visible = [], cur = 0;
+
+    function openCard(card) {
+      visible = [...document.querySelectorAll('.card:not(.hidden)')];
+      cur = visible.indexOf(card);
+      showSlide(cur);
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function showSlide(i) {
+      lbImg.src = visible[i].querySelector('img').src;
+      lbBrand.textContent = visible[i].dataset.brand;
+      lbTitle.textContent = visible[i].dataset.title;
+    }
+    function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+    document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => openCard(c)));
+    document.getElementById('lbClose').addEventListener('click', closeLb);
+    document.getElementById('lbPrev').addEventListener('click', () => { cur = (cur - 1 + visible.length) % visible.length; showSlide(cur); });
+    document.getElementById('lbNext').addEventListener('click', () => { cur = (cur + 1) % visible.length; showSlide(cur); });
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft')  document.getElementById('lbPrev').click();
+      if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+    });
+
+    // Scroll-in animation
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.card').forEach((c, i) => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(24px)';
+      c.style.transition = `opacity 0.5s ${i * 0.04}s ease, transform 0.5s ${i * 0.04}s ease`;
+      obs.observe(c);
+    });
+  </script>
+</body>
+</html>
