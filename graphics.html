@@ -3,34 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Social Media Graphics — Martins Ogundare</title>
+  <title>Social Media Management — Martins Ogundare</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --black: #0a0a0a;
-      --off-white: #f5f2ec;
-      --gold: #c9a84c;
-      --teal: #00b4d8;
-      --dark-gray: #1c1c1c;
+      --black: #0a0a0a; --off-white: #f5f2ec; --gold: #c9a84c;
+      --teal: #00b4d8; --purple: #8b5cf6; --green: #2d9e5f;
+      --dark-gray: #1c1c1c; --mid-gray: #242424;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { background: var(--black); color: var(--off-white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
-
     body::before {
-      content: '';
-      position: fixed; inset: 0;
+      content: ''; position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 200px; pointer-events: none; z-index: 1; opacity: 0.3;
     }
 
-    .scroll-progress {
-      position: fixed; top: 0; left: 0; height: 2px;
-      background: var(--teal); z-index: 9998; width: 0;
-    }
+    /* ─── SCROLL BAR ─── */
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--gold); z-index: 9998; width: 0; }
 
-    /* ---- TOP NAV: scoped strictly to #main-nav ---- */
+    /* ─── TOP NAV ─── */
     #main-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 9000;
       padding: 22px 60px;
@@ -38,202 +32,276 @@
       background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
       transition: background 0.3s, backdrop-filter 0.3s;
     }
-    #main-nav.scrolled {
-      background: rgba(10,10,10,0.97);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #1e1e1e;
-    }
-    #main-nav .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px; letter-spacing: 0.15em;
-      color: var(--gold); text-decoration: none; flex-shrink: 0;
-    }
-    #main-nav .nav-list {
-      display: flex; gap: 24px; list-style: none; align-items: center;
-    }
-    #main-nav .nav-list a {
-      text-decoration: none; font-size: 11px;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: rgba(245,242,236,0.5); transition: color 0.3s; white-space: nowrap;
-    }
-    #main-nav .nav-list a:hover { color: var(--gold); }
-    #main-nav .nav-list a.active { color: var(--gold); }
+    #main-nav.scrolled { background: rgba(10,10,10,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid #1e1e1e; }
+    #main-nav .logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.15em; color: var(--gold); text-decoration: none; flex-shrink: 0; }
+    #main-nav .nav-list { display: flex; gap: 24px; list-style: none; align-items: center; }
+    #main-nav .nav-list a { text-decoration: none; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,242,236,0.5); transition: color 0.3s; white-space: nowrap; }
+    #main-nav .nav-list a:hover, #main-nav .nav-list a.active { color: var(--gold); }
+    @media (max-width: 900px) { #main-nav { padding: 18px 24px; } #main-nav .nav-list { gap: 14px; } #main-nav .nav-list a { font-size: 10px; } }
+    @media (max-width: 580px) { #main-nav .nav-list { display: none; } }
 
-    @media (max-width: 900px) {
-      #main-nav { padding: 18px 24px; }
-      #main-nav .nav-list { gap: 14px; }
-      #main-nav .nav-list a { font-size: 10px; }
-    }
-    @media (max-width: 600px) {
-      #main-nav .nav-list { display: none; }
-    }
-
-    /* ---- HERO ---- */
+    /* ─── HERO ─── */
     .hero {
-      min-height: 52vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 140px 60px 72px;
-      position: relative; overflow: hidden;
-      border-bottom: 1px solid #1e1e1e;
+      min-height: 56vh; display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 140px 60px 72px; position: relative; overflow: hidden; border-bottom: 1px solid #1e1e1e;
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 80% 50%, rgba(0,180,216,0.06) 0%, transparent 60%);
-    }
-    .hero-watermark {
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 75% 50%, rgba(201,168,76,0.06) 0%, transparent 60%); }
+    .hero-wm {
       position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(120px, 20vw, 260px);
-      color: transparent; -webkit-text-stroke: 1px rgba(0,180,216,0.07);
+      font-family: 'Bebas Neue', sans-serif; font-size: clamp(100px, 18vw, 240px);
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.08);
       line-height: 1; pointer-events: none; user-select: none;
     }
-    .breadcrumb {
-      font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 20px;
-      animation: fadeUp 0.7s 0.2s both; position: relative; z-index: 2;
-    }
+    .breadcrumb { font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; animation: fadeUp 0.7s 0.2s both; position: relative; z-index: 2; }
     .breadcrumb a { color: rgba(201,168,76,0.5); text-decoration: none; transition: color 0.3s; }
     .breadcrumb a:hover { color: var(--gold); }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(44px, 7.5vw, 108px);
-      font-weight: 900; line-height: 0.9; letter-spacing: -0.02em;
-      animation: fadeUp 0.7s 0.35s both; position: relative; z-index: 2;
-    }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(42px, 7vw, 104px); font-weight: 900; line-height: 0.9; letter-spacing: -0.02em; animation: fadeUp 0.7s 0.35s both; position: relative; z-index: 2; }
     .hero h1 em { font-style: italic; color: var(--teal); }
-    .hero-sub {
-      max-width: 500px; margin-top: 24px;
-      font-size: 15px; line-height: 1.7;
-      color: rgba(245,242,236,0.5); font-weight: 300;
-      animation: fadeUp 0.7s 0.5s both; position: relative; z-index: 2;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 768px) { .hero { padding: 120px 24px 60px; } }
+    .hero-sub { max-width: 520px; margin-top: 24px; font-size: 15px; line-height: 1.7; color: rgba(245,242,236,0.5); font-weight: 300; animation: fadeUp 0.7s 0.5s both; position: relative; z-index: 2; }
+    .hero-stats { display: flex; gap: 44px; margin-top: 44px; flex-wrap: wrap; animation: fadeUp 0.7s 0.65s both; position: relative; z-index: 2; }
+    .hstat .num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: var(--gold); line-height: 1; }
+    .hstat .lbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,242,236,0.3); margin-top: 2px; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { .hero { padding: 120px 24px 56px; } }
 
-    /* ---- FILTERS ---- */
-    .filters-wrap {
-      padding: 40px 60px 28px;
+    /* ─── STICKY TAB BAR ─── */
+    .tab-bar {
+      position: sticky; top: 66px; z-index: 800;
+      background: rgba(10,10,10,0.96); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1e1e1e;
+      padding: 0 60px;
+      display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: rgba(245,242,236,0.35);
+      padding: 18px 22px; white-space: nowrap;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s; margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: rgba(245,242,236,0.7); }
+    .tab-btn.active { color: var(--teal); border-bottom-color: var(--teal); }
+    .tab-btn[data-tab="mockups"].active { color: var(--green); border-bottom-color: var(--green); }
+    .tab-btn[data-tab="analytics"].active { color: var(--purple); border-bottom-color: var(--purple); }
+    .tab-sep { width: 1px; background: #1e1e1e; margin: 12px 4px; flex-shrink: 0; }
+    @media (max-width: 768px) { .tab-bar { padding: 0 16px; top: 58px; } .tab-btn { padding: 15px 14px; font-size: 10px; } }
+
+    /* ─── FILTER PILLS (inside graphics tab) ─── */
+    .filter-wrap {
+      padding: 32px 60px 24px;
       display: flex; gap: 8px; flex-wrap: wrap;
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 1px solid #141414;
     }
     .filter-btn {
-      background: none;
-      border: 1px solid rgba(245,242,236,0.12);
-      color: rgba(245,242,236,0.45);
-      padding: 8px 20px; border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      background: none; border: 1px solid rgba(245,242,236,0.1);
+      color: rgba(245,242,236,0.4); padding: 7px 18px; border-radius: 100px;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
       cursor: pointer; transition: all 0.3s;
     }
-    .filter-btn:hover { border-color: rgba(0,180,216,0.4); color: var(--teal); }
+    .filter-btn:hover { border-color: rgba(0,180,216,0.35); color: var(--teal); }
     .filter-btn.active { background: var(--teal); border-color: var(--teal); color: var(--black); font-weight: 600; }
-    @media (max-width: 768px) { .filters-wrap { padding: 28px 24px 20px; } }
+    @media (max-width: 768px) { .filter-wrap { padding: 22px 24px 18px; } }
 
-    /* ---- GALLERY ---- */
-    .gallery-wrap { padding: 48px 60px 80px; }
-    @media (max-width: 768px) { .gallery-wrap { padding: 32px 24px 60px; } }
+    /* ─── SECTION PANELS ─── */
+    .panel { display: block; }
+    .panel.hidden { display: none; }
 
-    .gallery { columns: 3; column-gap: 14px; }
-    @media (max-width: 1100px) { .gallery { columns: 2; } }
-    @media (max-width: 580px)  { .gallery { columns: 1; } }
+    /* ─── SECTION HEADER ─── */
+    .sec-head { padding: 52px 60px 24px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+    .sec-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); }
+    .sec-title { font-family: 'Playfair Display', serif; font-size: clamp(22px, 2.8vw, 36px); font-weight: 700; }
+    .sec-title em { font-style: italic; }
+    .sec-count { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.2em; color: rgba(245,242,236,0.18); margin-left: auto; }
+    @media (max-width: 768px) { .sec-head { padding: 36px 24px 18px; } }
 
+    /* ─── MASONRY (graphics) ─── */
+    .masonry-wrap { padding: 0 60px 80px; }
+    @media (max-width: 768px) { .masonry-wrap { padding: 0 24px 60px; } }
+    .masonry { columns: 3; column-gap: 14px; }
+    @media (max-width: 1100px) { .masonry { columns: 2; } }
+    @media (max-width: 560px)  { .masonry { columns: 1; } }
+
+    /* ─── BASE CARD ─── */
     .card {
       break-inside: avoid; margin-bottom: 14px;
-      position: relative; overflow: hidden;
-      border-radius: 6px; cursor: pointer; background: var(--dark-gray);
+      position: relative; overflow: hidden; border-radius: 7px;
+      cursor: pointer; background: var(--dark-gray);
+      transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    .card img { width: 100%; display: block; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .card:hover { transform: scale(0.975); }
+    .card img { width: 100%; display: block; transition: transform 0.6s ease; }
     .card:hover img { transform: scale(1.04); }
-
     .card-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, transparent 55%);
       opacity: 0; transition: opacity 0.4s;
-      display: flex; flex-direction: column; justify-content: flex-end; padding: 22px;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
     }
     .card:hover .card-overlay { opacity: 1; }
-    .card-brand { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
-    .card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; line-height: 1.2; }
-    .card-tag { font-size: 10px; color: rgba(245,242,236,0.45); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.15em; }
+    .card-brand { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal); margin-bottom: 4px; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; line-height: 1.2; }
+    .card-tag { font-size: 10px; color: rgba(245,242,236,0.4); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.12em; }
     .card-zoom {
-      position: absolute; top: 14px; right: 14px;
-      width: 34px; height: 34px; border-radius: 50%;
+      position: absolute; top: 12px; right: 12px;
+      width: 32px; height: 32px; border-radius: 50%;
       background: rgba(0,180,216,0.9);
       display: flex; align-items: center; justify-content: center;
-      opacity: 0; transform: scale(0.7);
-      transition: opacity 0.3s, transform 0.3s;
-      font-size: 16px; color: var(--black);
+      opacity: 0; transform: scale(0.6); transition: opacity 0.3s, transform 0.3s;
+      font-size: 15px; color: var(--black);
     }
     .card:hover .card-zoom { opacity: 1; transform: scale(1); }
     .card.hidden { display: none; }
 
-    /* ---- LIGHTBOX ---- */
+    /* ─── MOCKUP GRID (2 or 3 col portrait) ─── */
+    .mockup-grid-wrap { padding: 0 60px 80px; }
+    @media (max-width: 768px) { .mockup-grid-wrap { padding: 0 24px 60px; } }
+    .mockup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .mockup-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 500px)  { .mockup-grid { grid-template-columns: 1fr; } }
+
+    .mockup-card {
+      position: relative; overflow: hidden; border-radius: 8px;
+      background: var(--dark-gray); cursor: pointer;
+      transition: transform 0.45s ease; border: 1px solid rgba(45,158,95,0.08);
+    }
+    .mockup-card:hover { transform: scale(0.975); border-color: rgba(45,158,95,0.25); }
+    .mockup-card img { width: 100%; display: block; transition: transform 0.6s ease; }
+    .mockup-card:hover img { transform: scale(1.04); }
+    .mockup-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
+    }
+    .mockup-card:hover .mockup-overlay { opacity: 1; }
+    .mk-client { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+    .mk-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; line-height: 1.2; }
+    .mk-tag { font-size: 10px; color: rgba(245,242,236,0.4); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.12em; }
+    .mk-zoom {
+      position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(45,158,95,0.9); display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.6); transition: opacity 0.3s, transform 0.3s;
+      font-size: 15px; color: #fff;
+    }
+    .mockup-card:hover .mk-zoom { opacity: 1; transform: scale(1); }
+
+    /* ─── PLACEHOLDER CARD ─── */
+    .placeholder {
+      border-radius: 8px; border: 1px dashed rgba(245,242,236,0.07);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 12px; min-height: 260px; padding: 40px 20px;
+      background: rgba(255,255,255,0.01);
+    }
+    .ph-icon { font-size: 32px; opacity: 0.18; }
+    .ph-title { font-family: 'Playfair Display', serif; font-size: 15px; color: rgba(245,242,236,0.2); }
+    .ph-sub { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,242,236,0.1); }
+
+    /* ─── ANALYTICS ─── */
+    /* Budget plans — 2 col landscape */
+    .budget-wrap { padding: 0 60px 48px; display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    @media (max-width: 900px) { .budget-wrap { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { .budget-wrap { padding: 0 24px 36px; } }
+
+    .budget-card {
+      position: relative; overflow: hidden; border-radius: 8px;
+      background: var(--dark-gray); cursor: pointer;
+      transition: transform 0.45s ease; border: 1px solid rgba(201,168,76,0.08);
+    }
+    .budget-card:hover { transform: scale(0.985); border-color: rgba(201,168,76,0.25); }
+    .budget-card img { width: 100%; display: block; transition: transform 0.5s ease; }
+    .budget-card:hover img { transform: scale(1.02); }
+    .budget-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+    }
+    .budget-card:hover .budget-overlay { opacity: 1; }
+    .bud-client { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .bud-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; line-height: 1.2; }
+    .bud-tag { font-size: 10px; color: rgba(245,242,236,0.4); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.12em; }
+    .bud-zoom {
+      position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(201,168,76,0.9); display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.6); transition: opacity 0.3s, transform 0.3s;
+      font-size: 15px; color: var(--black);
+    }
+    .budget-card:hover .bud-zoom { opacity: 1; transform: scale(1); }
+
+    /* Analytics grid — 4 col */
+    .analytics-wrap { padding: 0 60px 80px; }
+    @media (max-width: 768px) { .analytics-wrap { padding: 0 24px 60px; } }
+    .analytics-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    @media (max-width: 1200px) { .analytics-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 860px)  { .analytics-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px)  { .analytics-grid { grid-template-columns: 1fr; } }
+
+    .stat-card {
+      position: relative; overflow: hidden; border-radius: 8px;
+      background: #f8f9fa; cursor: pointer;
+      transition: transform 0.45s ease, box-shadow 0.45s ease;
+      border: 1px solid rgba(139,92,246,0.08);
+    }
+    .stat-card:hover { transform: scale(0.97); box-shadow: 0 20px 60px rgba(0,0,0,0.5); border-color: rgba(139,92,246,0.3); }
+    .stat-card img { width: 100%; display: block; }
+    .stat-overlay {
+      position: absolute; inset: 0; border-radius: 8px;
+      background: rgba(139,92,246,0.88);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    }
+    .stat-card:hover .stat-overlay { opacity: 1; }
+    .stat-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.75); }
+    .stat-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #fff; }
+
+    /* ─── LIGHTBOX ─── */
     .lightbox {
       position: fixed; inset: 0; z-index: 10000;
-      background: rgba(10,10,10,0.96);
+      background: rgba(10,10,10,0.97);
       display: none; align-items: center; justify-content: center;
-      padding: 40px; backdrop-filter: blur(8px);
+      padding: 40px; backdrop-filter: blur(10px);
     }
     .lightbox.open { display: flex; }
-    .lb-inner { position: relative; max-width: 860px; max-height: 90vh; width: 100%; }
-    .lb-inner img { width: 100%; max-height: 78vh; object-fit: contain; border-radius: 6px; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
+    .lb-inner { max-width: 880px; max-height: 92vh; width: 100%; }
+    .lb-inner img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 8px; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
     .lb-close {
-      position: fixed; top: 28px; right: 36px;
-      background: none; border: 1px solid rgba(245,242,236,0.2);
-      color: var(--off-white); font-size: 20px;
-      width: 46px; height: 46px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s;
+      position: fixed; top: 28px; right: 36px; background: none;
+      border: 1px solid rgba(245,242,236,0.2); color: var(--off-white); font-size: 20px;
+      width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.3s;
     }
     .lb-close:hover { background: var(--teal); border-color: var(--teal); color: var(--black); }
     .lb-info { margin-top: 18px; text-align: center; }
-    .lb-brand-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
-    .lb-title-label { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
-    .lb-arrow {
+    .lb-brand { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
+    .lb-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+    .lb-nav {
       position: fixed; top: 50%; transform: translateY(-50%);
       background: none; border: 1px solid rgba(245,242,236,0.2);
-      color: var(--off-white); font-size: 26px;
-      width: 50px; height: 50px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s;
+      color: var(--off-white); font-size: 26px; width: 50px; height: 50px;
+      border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s;
     }
-    .lb-arrow:hover { background: var(--teal); border-color: var(--teal); color: var(--black); }
-    .lb-prev { left: 24px; }
-    .lb-next { right: 24px; }
+    .lb-nav:hover { background: var(--teal); border-color: var(--teal); color: var(--black); }
+    .lb-prev { left: 24px; } .lb-next { right: 24px; }
 
-    /* ---- TICKER ---- */
-    .ticker {
-      border-top: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e;
-      padding: 14px 0; overflow: hidden; white-space: nowrap;
-    }
-    .ticker-track { display: inline-flex; gap: 60px; animation: ticker-scroll 35s linear infinite; }
-    @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .ticker-item { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.2em; color: rgba(245,242,236,0.2); text-transform: uppercase; }
-    .ticker-dot { color: var(--gold); margin-right: 8px; }
+    /* ─── TICKER ─── */
+    .ticker { border-top: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e; padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .ticker-track { display: inline-flex; gap: 60px; animation: ticker 35s linear infinite; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ticker-item { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.2em; color: rgba(245,242,236,0.18); text-transform: uppercase; }
+    .tdot { color: var(--gold); margin-right: 8px; }
 
-    /* ---- FOOTER: uses <footer> tag + plain divs only, no <nav> ---- */
+    /* ─── FOOTER ─── */
     .site-footer {
       border-top: 1px solid #1e1e1e; padding: 40px 60px;
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 24px; flex-wrap: wrap;
+      display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
     }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif; font-size: 24px;
-      letter-spacing: 0.1em; color: var(--gold); text-decoration: none;
-    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 0.1em; color: var(--gold); text-decoration: none; }
     .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
-    .footer-links a {
-      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-      color: rgba(245,242,236,0.3); text-decoration: none; transition: color 0.3s;
-    }
+    .footer-links a { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,242,236,0.3); text-decoration: none; transition: color 0.3s; }
     .footer-links a:hover { color: var(--gold); }
     .footer-copy { font-size: 12px; color: rgba(245,242,236,0.2); }
-    @media (max-width: 768px) {
-      .site-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
-    }
+    @media (max-width: 768px) { .site-footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 18px; } }
   </style>
 </head>
 <body>
@@ -243,13 +311,13 @@
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox">
     <button class="lb-close" id="lbClose">✕</button>
-    <button class="lb-arrow lb-prev" id="lbPrev">‹</button>
-    <button class="lb-arrow lb-next" id="lbNext">›</button>
+    <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+    <button class="lb-nav lb-next" id="lbNext">›</button>
     <div class="lb-inner">
       <img src="" id="lbImg" alt="" />
       <div class="lb-info">
-        <div class="lb-brand-label" id="lbBrand"></div>
-        <div class="lb-title-label" id="lbTitle"></div>
+        <div class="lb-brand" id="lbBrand"></div>
+        <div class="lb-title" id="lbTitle"></div>
       </div>
     </div>
   </div>
@@ -260,9 +328,8 @@
     <ul class="nav-list">
       <li><a href="index.html#skills">Skills</a></li>
       <li><a href="works.html">Works</a></li>
+      <li><a href="graphics.html" class="active">Social Media Mgt</a></li>
       <li><a href="pitchdeck.html">Pitch Decks</a></li>
-      <li><a href="mockups.html">Mockups</a></li>
-      <li><a href="infographics.html">Infographics</a></li>
       <li><a href="videos.html">Videos</a></li>
       <li><a href="index.html#contact">Hire Me</a></li>
     </ul>
@@ -271,292 +338,527 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-watermark">ART</div>
+    <div class="hero-wm">SMM</div>
     <div class="breadcrumb">
       <a href="index.html">Home</a> &nbsp;✦&nbsp;
       <a href="works.html">All Works</a> &nbsp;✦&nbsp;
-      Graphics
+      Social Media
     </div>
-    <h1>Social Media<br /><em>Graphics</em></h1>
-    <p class="hero-sub">Instagram posts, promotional banners, engagement content & brand social assets crafted for 15+ clients across Nigeria.</p>
+    <h1>Social Media<br /><em>Portfolio</em></h1>
+    <p class="hero-sub">Everything social media — graphics, brand mockups, analytics reports & marketing budgets. Built for 15+ brands across Nigeria.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">36+</div><div class="lbl">Graphics Designed</div></div>
+      <div class="hstat"><div class="num">8+</div><div class="lbl">Brand Mockups</div></div>
+      <div class="hstat"><div class="num">4</div><div class="lbl">Infographics</div></div>
+      <div class="hstat"><div class="num">2</div><div class="lbl">Marketing Budgets</div></div>
+    </div>
   </section>
 
-  <!-- FILTERS -->
-  <div class="filters-wrap">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="martinez">MartinezKnight</button>
-    <button class="filter-btn" data-filter="stannath">Stannath Logistics</button>
-    <button class="filter-btn" data-filter="hubconnect">Hub Connect</button>
-    <button class="filter-btn" data-filter="social">Engagement Posts</button>
-    <button class="filter-btn" data-filter="other">Other Clients</button>
-  </div>
-
-  <!-- GALLERY
-       All images use FLAT paths (filename only).
-       All HTML + image files must be in the SAME folder. -->
-  <div class="gallery-wrap">
-    <div class="gallery" id="gallery">
-
-      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Win Online with Digital Marketing">
-        <img src="Martinez_Knight_Graph._03.png" alt="Digital Marketing" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Win Online with Digital Marketing</div><div class="card-tag">Promo · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Global Logistics" data-title="Routes & Rates">
-        <img src="STAN-NATH_LOGISTICS_IG_.png" alt="Routes and Rates" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Routes & Rates</div><div class="card-tag">Info · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Monday Motivation">
-        <img src="_Monday_Motivation_(1).png" alt="Monday Motivation" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Monday Motivation</div><div class="card-tag">Motivational · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Let Us Sprinkle Our Magic">
-        <img src="EW_3.png" alt="Digital Magic" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Let Us Sprinkle Our Magic</div><div class="card-tag">Promo · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect Show" data-title="Join the Conversation">
-        <img src="www.thehubconnectshow.com_(1)" alt="Hub Connect Show" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect Show</div><div class="card-title">Join the Conversation</div><div class="card-tag">Awareness · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Monday Motivation Series">
-        <img src="SNGL_Monday_Motivation.png" alt="Monday Motivation SNGL" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Monday Motivation Series</div><div class="card-tag">Motivational · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Global Logistics" data-title="Big Achievements Start with One Delivery">
-        <img src="S_1.png" alt="Big Achievements" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Big Achievements Start with One Delivery</div><div class="card-tag">Brand · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="HCNL Campaign">
-        <img src="HCNL_8.png" alt="Hub Connect NL" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">HCNL Campaign</div><div class="card-tag">Campaign · Digital Ad</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="other" data-brand="Personal / Event" data-title="Birthday Design">
-        <img src="Birthday_Design.jpeg" alt="Birthday Design" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Personal / Event</div><div class="card-title">Birthday Design</div><div class="card-tag">Celebration · Graphic</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Smiles & Shopping">
-        <img src="Smiles_and_Shopping_with_Hub_Connect.png" alt="Smiles and Shopping" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Smiles & Shopping</div><div class="card-tag">Brand · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="other" data-brand="Fitness Brand" data-title="Fitness Instagram Post">
-        <img src="Pink_Modern_Fitness_Gym_Instagram_Post_2.png" alt="Fitness Post" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Fitness Brand</div><div class="card-title">Fitness Instagram Post</div><div class="card-tag">Lifestyle · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Thank God It's Friday">
-        <img src="TGIF.png" alt="TGIF" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Thank God It's Friday</div><div class="card-tag">Engagement · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="WhatsApp Promotions">
-        <img src="HCWHATSAPP_PROMOTIONS_4.png" alt="WhatsApp Promotions" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">WhatsApp Promotions</div><div class="card-tag">Campaign · WhatsApp Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="How Are You Finding Jobs?">
-        <img src="How_Are_You_Finding_Jobs_.png" alt="How Are You Finding Jobs" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">How Are You Finding Jobs?</div><div class="card-tag">Survey · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Buy, Sell & Book Easily">
-        <img src="Hub_Connect_Buy_Sell_Book_Easily.png" alt="Buy Sell Book" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Buy, Sell & Book Easily</div><div class="card-tag">Feature · Digital Ad</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="other" data-brand="CheapMove.ng" data-title="Cargo Services — 50% Off">
-        <img src="cheap_move.png" alt="CheapMove Cargo" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">CheapMove.ng</div><div class="card-title">Cargo Services — 50% Off</div><div class="card-tag">Promo · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="TGIF — Quick & Excellent Deliveries">
-        <img src="KG_1.png" alt="TGIF Orange" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">TGIF — Quick & Excellent Deliveries</div><div class="card-tag">Engagement · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="other" data-brand="Youth Tech Centre" data-title="Transition to Tech in 16 Weeks">
-        <img src="YTD.png" alt="Youth Tech Dev Centre" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Youth Tech Centre</div><div class="card-title">Transition to Tech in 16 Weeks</div><div class="card-tag">Education · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Reliable Home Delivery">
-        <img src="5.png" alt="Home Delivery" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Reliable Home Delivery</div><div class="card-tag">Service · Digital Ad</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Are You A Carpenter?">
-        <img src="8.png" alt="Carpenter Hub Connect" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Are You A Carpenter?</div><div class="card-tag">Recruitment · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Price List — Lagos Routes">
-        <img src="9.png" alt="Price List" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Price List — Lagos Routes</div><div class="card-tag">Info · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Earn Daily. Work on Your Own Terms.">
-        <img src="12.png" alt="Earn Daily" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Earn Daily. Work on Your Own Terms.</div><div class="card-tag">Platform · Digital Ad</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="other" data-brand="OX10 Cloud Consults" data-title="Become a Cloud/DevOps Engineer">
-        <img src="18.png" alt="Cloud DevOps" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">OX10 Cloud Consults</div><div class="card-title">Become a Cloud/DevOps Engineer</div><div class="card-tag">Education · Promo</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Price List — Lagos Routes">
-        <img src="19.png" alt="Stannath Price List" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Price List — Lagos Routes</div><div class="card-tag">Info · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="social" data-brand="@thebellenneka" data-title="Thank You — Milestone Post">
-        <img src="71.png" alt="Thank You" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Personal Brand</div><div class="card-title">Thank You — Milestone Post</div><div class="card-tag">Personal Brand · Social</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Shop with Multiple Options">
-        <img src="73.png" alt="Shop Multiple Options" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Shop with Multiple Options</div><div class="card-tag">Marketplace · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="other" data-brand="Youth Tech Centre" data-title="Tech Training Programme">
-        <img src="21.png" alt="Youth Tech" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Youth Tech Centre</div><div class="card-title">Tech Training Programme</div><div class="card-tag">Education · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Happy New Year 2025">
-        <img src="GtocbT6a0AQY-la.jpg" alt="Happy New Year" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Happy New Year 2025</div><div class="card-tag">Seasonal · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="martinez" data-brand="MartinezKnight" data-title="Unlock Your Success">
-        <img src="WhatsApp_Image_2024-11-20_at_20.43.40_de34367e_(1).jpg" alt="Unlock Your Success" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Unlock Your Success</div><div class="card-tag">Company Profile · Flyer</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="martinez" data-brand="MartinezKnight" data-title="Hello September">
-        <img src="1_(1).png" alt="Hello September" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Hello September</div><div class="card-tag">Seasonal · Social Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
-      <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Joyful Connections">
-        <img src="Joyful_Connections_and_Bright_Aspirations_(2).png" alt="Joyful Connections" loading="lazy" />
-        <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Joyful Connections</div><div class="card-tag">Brand · Instagram Post</div></div>
-        <div class="card-zoom">↗</div>
-      </div>
-
+  <!-- WHAT'S INSIDE STRIP -->
+  <div style="padding:28px 60px;display:flex;gap:32px;flex-wrap:wrap;border-bottom:1px solid #141414;background:rgba(255,255,255,0.015);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;"></div>
+      <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,236,0.45);">Content Design, Graphics &amp; Infographics</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+      <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,236,0.45);">Brand Mockups &amp; Print Design</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;"></div>
+      <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,236,0.45);">Analytics Reporting</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;"></div>
+      <span style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,236,0.45);">Marketing Budget Planning</span>
     </div>
   </div>
 
-  <!-- TICKER -->
-  <div class="ticker">
-    <div class="ticker-track" id="tickerTrack"></div>
+  <!-- STICKY TABS -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="graphics">🎨 &nbsp;Content Design</button>
+    <div class="tab-sep"></div>
+    <button class="tab-btn" data-tab="mockups">📦 &nbsp;Mockups</button>
+    <div class="tab-sep"></div>
+    <button class="tab-btn" data-tab="analytics">📊 &nbsp;Analytics & Reports</button>
   </div>
 
-  <!-- FOOTER — <footer> tag + plain divs only. NO <nav> tag here. -->
+  <!-- ═══════════════════════════════════════
+       PANEL 1: GRAPHICS
+  ═══════════════════════════════════════ -->
+  <div class="panel" id="panel-graphics">
+
+    <!-- Filter pills -->
+    <div class="filter-wrap">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="martinez">MartinezKnight</button>
+      <button class="filter-btn" data-filter="stannath">Stannath Logistics</button>
+      <button class="filter-btn" data-filter="hubconnect">Hub Connect</button>
+      <button class="filter-btn" data-filter="elpazio">Elpazio</button>
+      <button class="filter-btn" data-filter="infographic">Infographics</button>
+      <button class="filter-btn" data-filter="social">Engagement Posts</button>
+      <button class="filter-btn" data-filter="other">Other Clients</button>
+    </div>
+
+    <div class="masonry-wrap">
+      <div class="masonry" id="gallery">
+
+        <!-- ── MartinezKnight ── -->
+        <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Win Online with Digital Marketing">
+          <img src="Martinez_Knight_Graph._03.png" alt="Digital Marketing" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Win Online with Digital Marketing</div><div class="card-tag">Promo · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Monday Motivation">
+          <img src="_Monday_Motivation_(1).png" alt="Monday Motivation" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Monday Motivation</div><div class="card-tag">Motivational · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Let Us Sprinkle Our Magic">
+          <img src="EW_3.png" alt="Digital Magic" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Let Us Sprinkle Our Magic</div><div class="card-tag">Promo · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="martinez" data-brand="MartinezKnight HMC" data-title="Monday Motivation Series">
+          <img src="SNGL_Monday_Motivation.png" alt="Monday Motivation SNGL" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Monday Motivation Series</div><div class="card-tag">Motivational · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="martinez" data-brand="MartinezKnight" data-title="Unlock Your Success">
+          <img src="WhatsApp_Image_2024-11-20_at_20.43.40_de34367e_(1).jpg" alt="Unlock Your Success" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Unlock Your Success</div><div class="card-tag">Company Profile · Flyer</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="martinez" data-brand="MartinezKnight" data-title="Hello September">
+          <img src="1_(1).png" alt="Hello September" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">MartinezKnight</div><div class="card-title">Hello September</div><div class="card-tag">Seasonal · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <!-- ── Stannath Logistics ── -->
+        <div class="card" data-category="stannath" data-brand="Stannath Global Logistics" data-title="Routes & Rates">
+          <img src="STAN-NATH_LOGISTICS_IG_.png" alt="Routes and Rates" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Routes & Rates</div><div class="card-tag">Info · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="stannath" data-brand="Stannath Global Logistics" data-title="Big Achievements Start with One Delivery">
+          <img src="S_1.png" alt="Big Achievements" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Big Achievements Start with One Delivery</div><div class="card-tag">Brand · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Thank God It's Friday">
+          <img src="TGIF.png" alt="TGIF" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Thank God It's Friday</div><div class="card-tag">Engagement · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="TGIF — Quick & Excellent Deliveries">
+          <img src="KG_1.png" alt="TGIF Orange" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">TGIF — Quick & Excellent Deliveries</div><div class="card-tag">Engagement · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Reliable Home Delivery">
+          <img src="5.png" alt="Home Delivery" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Reliable Home Delivery</div><div class="card-tag">Service · Digital Ad</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Price List — Lagos Routes">
+          <img src="9.png" alt="Price List" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Price List — Lagos Routes</div><div class="card-tag">Info · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Price List — Lagos Routes">
+          <img src="19.png" alt="Stannath Price List" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Price List — Lagos Routes</div><div class="card-tag">Info · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="stannath" data-brand="Stannath Logistics" data-title="Happy New Year 2025">
+          <img src="GtocbT6a0AQY-la.jpg" alt="Happy New Year" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Happy New Year 2025</div><div class="card-tag">Seasonal · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <!-- ── Hub Connect ── -->
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect Show" data-title="Join the Conversation">
+          <!-- ⚠️ NOTE: rename file to www_thehubconnectshow_com_1.png — original has no extension -->
+          <img src="www_thehubconnectshow_com_1.png" alt="Hub Connect Show" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect Show</div><div class="card-title">Join the Conversation</div><div class="card-tag">Awareness · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="HCNL Campaign">
+          <img src="HCNL_8.png" alt="Hub Connect NL" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">HCNL Campaign</div><div class="card-tag">Campaign · Digital Ad</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Smiles & Shopping">
+          <img src="Smiles_and_Shopping_with_Hub_Connect.png" alt="Smiles and Shopping" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Smiles & Shopping</div><div class="card-tag">Brand · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="WhatsApp Promotions">
+          <img src="HCWHATSAPP_PROMOTIONS_4.png" alt="WhatsApp Promotions" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">WhatsApp Promotions</div><div class="card-tag">Campaign · WhatsApp Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="How Are You Finding Jobs?">
+          <img src="How_Are_You_Finding_Jobs_.png" alt="How Are You Finding Jobs" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">How Are You Finding Jobs?</div><div class="card-tag">Survey · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Buy, Sell & Book Easily">
+          <img src="Hub_Connect_Buy_Sell_Book_Easily.png" alt="Buy Sell Book" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Buy, Sell & Book Easily</div><div class="card-tag">Feature · Digital Ad</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Earn Daily. Work on Your Own Terms.">
+          <img src="12.png" alt="Earn Daily" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Earn Daily. Work on Your Own Terms.</div><div class="card-tag">Platform · Digital Ad</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Are You A Carpenter?">
+          <img src="8.png" alt="Carpenter Hub Connect" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Are You A Carpenter?</div><div class="card-tag">Recruitment · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Shop with Multiple Options">
+          <img src="73.png" alt="Shop Multiple Options" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Shop with Multiple Options</div><div class="card-tag">Marketplace · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="hubconnect" data-brand="Hub Connect" data-title="Joyful Connections">
+          <img src="Joyful_Connections_and_Bright_Aspirations_(2).png" alt="Joyful Connections" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Hub Connect</div><div class="card-title">Joyful Connections</div><div class="card-tag">Brand · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <!-- ── Elpazio ── -->
+        <div class="card" data-category="elpazio" data-brand="Elpazio" data-title="Secure Smarter. Improve Performance.">
+          <img src="Elpazios_Instagram_Images_5.png" alt="Elpazio Secure Smarter" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Elpazio</div><div class="card-title">Secure Smarter. Improve Performance.</div><div class="card-tag">B2B · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="elpazio" data-brand="Elpazio" data-title="Elpazio — Brand Visual">
+          <img src="Elpazios_Instagram_Images_5_3.png" alt="Elpazio Brand Post" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Elpazio</div><div class="card-title">Elpazio — Brand Visual</div><div class="card-tag">Brand · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <!-- ── Engagement / Social ── -->
+        <div class="card" data-category="social" data-brand="@thebellenneka" data-title="Thank You — Milestone Post">
+          <img src="71.png" alt="Thank You" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Personal Brand</div><div class="card-title">Thank You — Milestone Post</div><div class="card-tag">Personal Brand · Social</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <!-- ── Other Clients ── -->
+        <div class="card" data-category="other" data-brand="Personal / Event" data-title="Birthday Design">
+          <img src="Birthday_Design.jpeg" alt="Birthday Design" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Personal / Event</div><div class="card-title">Birthday Design</div><div class="card-tag">Celebration · Graphic</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="other" data-brand="Fitness Brand" data-title="Fitness Instagram Post">
+          <img src="Pink_Modern_Fitness_Gym_Instagram_Post_2.png" alt="Fitness Post" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Fitness Brand</div><div class="card-title">Fitness Instagram Post</div><div class="card-tag">Lifestyle · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="other" data-brand="CheapMove.ng" data-title="Cargo Services — 50% Off">
+          <img src="cheap_move.png" alt="CheapMove Cargo" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">CheapMove.ng</div><div class="card-title">Cargo Services — 50% Off</div><div class="card-tag">Promo · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="other" data-brand="Youth Tech Centre" data-title="Transition to Tech in 16 Weeks">
+          <img src="YTD.png" alt="Youth Tech Dev Centre" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Youth Tech Centre</div><div class="card-title">Transition to Tech in 16 Weeks</div><div class="card-tag">Education · Instagram Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="other" data-brand="Youth Tech Centre" data-title="Tech Training Programme">
+          <img src="21.png" alt="Youth Tech" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Youth Tech Centre</div><div class="card-title">Tech Training Programme</div><div class="card-tag">Education · Social Post</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+        <div class="card" data-category="other" data-brand="OX10 Cloud Consults" data-title="Become a Cloud/DevOps Engineer">
+          <img src="18.png" alt="Cloud DevOps" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">OX10 Cloud Consults</div><div class="card-title">Become a Cloud/DevOps Engineer</div><div class="card-tag">Education · Promo</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+
+        <!-- ── Infographics ── -->
+        <div class="card" data-category="infographic" data-brand="MartinezKnight HMC" data-title="10 Must-Have Website Features for African Businesses">
+          <img src="Untitled_design_8.png" alt="10 Must-Have Website Features" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand" style="color:var(--gold)">MartinezKnight</div><div class="card-title">10 Must-Have Website Features</div><div class="card-tag">Infographic · Educational</div></div>
+          <div class="card-zoom" style="background:rgba(201,168,76,0.9)">↗</div>
+        </div>
+
+        <div class="card" data-category="infographic" data-brand="Hub Connect" data-title="Program Optimization Cycle — Referral & Earnings">
+          <img src="New_Referral___Earnings_Cycle__visual_selection_2.png" alt="Program Optimization Cycle" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand" style="color:var(--gold)">Hub Connect</div><div class="card-title">Program Optimization Cycle</div><div class="card-tag">Infographic · Process Flow</div></div>
+          <div class="card-zoom" style="background:rgba(201,168,76,0.9)">↗</div>
+        </div>
+
+        <div class="card" data-category="infographic" data-brand="Hub Connect" data-title="Achieving Sustainable Platform Earnings">
+          <img src="__visual_selection_10.png" alt="Sustainable Platform Earnings" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand" style="color:var(--gold)">Hub Connect</div><div class="card-title">Achieving Sustainable Platform Earnings</div><div class="card-tag">Infographic · Strategy</div></div>
+          <div class="card-zoom" style="background:rgba(201,168,76,0.9)">↗</div>
+        </div>
+
+        <div class="card" data-category="infographic" data-brand="Hub Connect" data-title="HubConnect 3P Model — Plan, Planet, Pursuit">
+          <img src="__HubConnect_Bwari_LGA_Pilot___Field_Operations_Map__visual_selection_10.png" alt="HubConnect 3P Model" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand" style="color:var(--gold)">Hub Connect</div><div class="card-title">HubConnect 3P Model</div><div class="card-tag">Infographic · Brand Strategy</div></div>
+          <div class="card-zoom" style="background:rgba(201,168,76,0.9)">↗</div>
+        </div>
+
+        <!-- ── Stannath Real Photo ── -->
+        <div class="card" data-category="stannath" data-brand="Stannath Global Logistics" data-title="Rider Ready — Real Delivery in Action">
+          <img src="WhatsApp_Image_20250203_at_13_52_07_ba22054c.jpg" alt="Stannath Delivery Rider" loading="lazy" />
+          <div class="card-overlay"><div class="card-brand">Stannath Logistics</div><div class="card-title">Rider Ready — Delivery in Action</div><div class="card-tag">Behind the Brand · Social Content</div></div>
+          <div class="card-zoom">↗</div>
+        </div>
+
+      </div><!-- end .masonry -->
+    </div><!-- end .masonry-wrap -->
+
+  </div><!-- end panel-graphics -->
+
+
+  <!-- ═══════════════════════════════════════
+       PANEL 2: MOCKUPS
+  ═══════════════════════════════════════ -->
+  <div class="panel hidden" id="panel-mockups">
+
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">✦ Brand Mockups</div>
+        <div class="sec-title">ID Cards, Stationery & <em style="color:var(--green)">Brand Print</em></div>
+      </div>
+      <div class="sec-count">8 MOCKUPS</div>
+    </div>
+
+    <div class="mockup-grid-wrap">
+      <div class="mockup-grid">
+
+        <!-- Goodland ID Cards -->
+        <div class="mockup-card" data-brand="Goodland" data-title="Staff ID Card — Front (Photo)">
+          <img src="ID__CARD_GOODLAND_2.png" alt="Goodland ID Card Front" loading="lazy" />
+          <div class="mockup-overlay"><div class="mk-client">Goodland</div><div class="mk-title">Staff ID Card — Front</div><div class="mk-tag">ID Card · Brand Print</div></div>
+          <div class="mk-zoom">↗</div>
+        </div>
+
+        <div class="mockup-card" data-brand="Goodland" data-title="Staff ID Card — Back (Logo & Contact)">
+          <img src="ID__CARD_GOODLAND_1.png" alt="Goodland ID Card Back" loading="lazy" />
+          <div class="mockup-overlay"><div class="mk-client">Goodland</div><div class="mk-title">Staff ID Card — Back</div><div class="mk-tag">ID Card · Brand Print</div></div>
+          <div class="mk-zoom">↗</div>
+        </div>
+
+        <!-- Placeholders — replace with your new mockups -->
+        <div class="placeholder"><div class="ph-icon">📦</div><div class="ph-title">More Mockups Coming</div><div class="ph-sub">Drop images to add</div></div>
+        <div class="placeholder"><div class="ph-icon">📦</div><div class="ph-title">More Mockups Coming</div><div class="ph-sub">Drop images to add</div></div>
+        <div class="placeholder"><div class="ph-icon">📦</div><div class="ph-title">More Mockups Coming</div><div class="ph-sub">Drop images to add</div></div>
+        <div class="placeholder"><div class="ph-icon">📦</div><div class="ph-title">More Mockups Coming</div><div class="ph-sub">Drop images to add</div></div>
+
+      </div>
+    </div>
+
+  </div><!-- end panel-mockups -->
+
+
+  <!-- ═══════════════════════════════════════
+       PANEL 3: ANALYTICS & REPORTS
+  ═══════════════════════════════════════ -->
+  <div class="panel hidden" id="panel-analytics">
+
+    <!-- Marketing Budget Plans -->
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">✦ Strategy & Planning</div>
+        <div class="sec-title">Marketing Budget <em style="color:var(--gold)">Plans</em></div>
+      </div>
+    </div>
+
+    <div class="budget-wrap">
+
+      <div class="budget-card" data-brand="Elpazio" data-title="Elpazio — Q1 Digital Marketing Budget Plan">
+        <img src="Elpazio_Digital_Marketing_.jpeg" alt="Elpazio Budget Plan" loading="lazy" />
+        <div class="budget-overlay">
+          <div class="bud-client">Elpazio</div>
+          <div class="bud-title">Q1 Digital Marketing Budget Plan</div>
+          <div class="bud-tag">Google Ads · SEO · Social Media · ₦1.2M</div>
+        </div>
+        <div class="bud-zoom">↗</div>
+      </div>
+
+      <div class="budget-card" data-brand="Goodland" data-title="Goodland — Digital Marketing Strategy Plan">
+        <img src="Goodland_Digital_Marketing_Plan_.jpeg" alt="Goodland Marketing Plan" loading="lazy" />
+        <div class="budget-overlay">
+          <div class="bud-client">Goodland</div>
+          <div class="bud-title">Digital Marketing Strategy Plan</div>
+          <div class="bud-tag">Strategy · Budget Allocation · Excel</div>
+        </div>
+        <div class="bud-zoom">↗</div>
+      </div>
+
+    </div>
+
+    <!-- Social Analytics -->
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">✦ Performance Reporting</div>
+        <div class="sec-title">Social Media <em style="color:var(--purple)">Analytics</em></div>
+      </div>
+    </div>
+
+    <div class="analytics-wrap">
+      <div class="analytics-grid">
+
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Content Interactions — 482 (+10.6%)"><img src="Interactions_2.png" alt="Interactions" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Interactions</div><div class="stat-val">482 ↑10.6%</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Content Interactions — Monthly"><img src="Interactions_3.png" alt="Interactions" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Interactions</div><div class="stat-val">Monthly</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Content Interactions — Report 9"><img src="Interactions_9.png" alt="Interactions" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Interactions</div><div class="stat-val">Report 9</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Content Interactions — Report 10"><img src="Interactions_10.png" alt="Interactions" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Interactions</div><div class="stat-val">Report 10</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Content Interactions — Report 11"><img src="Interactions_11.png" alt="Interactions" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Interactions</div><div class="stat-val">Report 11</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Content Interactions — Report 12"><img src="Interactions_12.png" alt="Interactions" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Interactions</div><div class="stat-val">Report 12</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Reach — Audience Reached"><img src="Reach.png" alt="Reach" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Reach</div><div class="stat-val">Audience</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Reach — Report 5"><img src="Reach_5.png" alt="Reach" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Reach</div><div class="stat-val">Report 5</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Views — Total Content Views"><img src="Views_1.png" alt="Views" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Views</div><div class="stat-val">Total</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Views — Report 2"><img src="Views_2.png" alt="Views" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Views</div><div class="stat-val">Report 2</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Views — Report 10"><img src="Views_10.png" alt="Views" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Views</div><div class="stat-val">Report 10</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Views — Report 11"><img src="Views_11.png" alt="Views" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Views</div><div class="stat-val">Report 11</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Unique Viewers"><img src="Viewers_3.png" alt="Viewers" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Viewers</div><div class="stat-val">Unique</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Follows — Audience Growth Report 3"><img src="Follows_3.png" alt="Follows" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Follows</div><div class="stat-val">Growth</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Follows — Report 4"><img src="Follows_4.png" alt="Follows" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Follows</div><div class="stat-val">Report 4</div></div></div>
+        <div class="stat-card" data-brand="Social Media Analytics" data-title="Follows — Report 5"><img src="Follows_5.png" alt="Follows" loading="lazy" /><div class="stat-overlay"><div class="stat-label">Follows</div><div class="stat-val">Report 5</div></div></div>
+
+      </div>
+    </div>
+
+  </div><!-- end panel-analytics -->
+
+  <!-- TICKER -->
+  <div class="ticker"><div class="ticker-track" id="tickerTrack"></div></div>
+
+  <!-- FOOTER -->
   <footer class="site-footer">
     <a href="index.html" class="footer-logo">M. Ogundare</a>
     <div class="footer-links">
       <a href="works.html">← All Works</a>
       <a href="pitchdeck.html">Pitch Decks</a>
-      <a href="mockups.html">Mockups</a>
-      <a href="infographics.html">Infographics</a>
       <a href="videos.html">Videos</a>
+      <a href="index.html#contact">Hire Me</a>
     </div>
     <div class="footer-copy">© 2025 Martins Ogundare</div>
   </footer>
 
   <script>
-    // Scroll progress + sticky nav
+    // ── Scroll progress + sticky nav
     const scrollBar = document.getElementById('scrollBar');
     const mainNav   = document.getElementById('main-nav');
     window.addEventListener('scroll', () => {
-      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
-      scrollBar.style.width = pct + '%';
+      scrollBar.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
       mainNav.classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    // Ticker (doubled for seamless loop)
+    // ── Ticker
+    const words = ['Social Media Graphics','Brand Mockups','Analytics Reports','Marketing Budgets',
+                   'Instagram Posts','ID Cards','Engagement Content','Data Visuals','Campaign Design'];
     const tickerTrack = document.getElementById('tickerTrack');
-    const words = ['Social Media Graphics','Instagram Posts','Promotional Banners','Brand Assets','Engagement Content','Event Graphics','Seasonal Posts','Campaign Visuals'];
-    const tickerHTML = words.map(w => `<span class="ticker-item"><span class="ticker-dot">✦</span>${w}</span>`).join('');
-    tickerTrack.innerHTML = tickerHTML + tickerHTML;
+    const html = words.map(w => `<span class="ticker-item"><span class="tdot">✦</span>${w}</span>`).join('');
+    tickerTrack.innerHTML = html + html;
 
-    // Filter buttons
+    // ── Tab switching
+    const panels = { graphics: 'panel-graphics', mockups: 'panel-mockups', analytics: 'panel-analytics' };
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.dataset.tab;
+        Object.values(panels).forEach(id => document.getElementById(id).classList.add('hidden'));
+        document.getElementById(panels[target]).classList.remove('hidden');
+        // Scroll to just below the tab bar
+        const tabBarBottom = document.getElementById('tabBar').getBoundingClientRect().bottom + window.scrollY;
+        window.scrollTo({ top: tabBarBottom - 90, behavior: 'smooth' });
+      });
+    });
+
+    // ── Graphics filter pills
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const f = btn.dataset.filter;
-        document.querySelectorAll('.card').forEach(card => {
+        document.querySelectorAll('#gallery .card').forEach(card => {
           card.classList.toggle('hidden', f !== 'all' && card.dataset.category !== f);
         });
       });
     });
 
-    // Lightbox
+    // ── Unified lightbox
     const lb      = document.getElementById('lightbox');
     const lbImg   = document.getElementById('lbImg');
     const lbBrand = document.getElementById('lbBrand');
     const lbTitle = document.getElementById('lbTitle');
-    let visible = [], cur = 0;
+    let lbPool = [], lbCur = 0;
 
-    function openCard(card) {
-      visible = [...document.querySelectorAll('.card:not(.hidden)')];
-      cur = visible.indexOf(card);
-      showSlide(cur);
-      lb.classList.add('open');
-      document.body.style.overflow = 'hidden';
+    function openLb(el, pool) {
+      lbPool = pool; lbCur = pool.indexOf(el);
+      showLbSlide(lbCur);
+      lb.classList.add('open'); document.body.style.overflow = 'hidden';
     }
-    function showSlide(i) {
-      lbImg.src = visible[i].querySelector('img').src;
-      lbBrand.textContent = visible[i].dataset.brand;
-      lbTitle.textContent = visible[i].dataset.title;
+    function showLbSlide(i) {
+      const el = lbPool[i];
+      lbImg.src    = el.querySelector('img').src;
+      lbBrand.textContent = el.dataset.brand || '';
+      lbTitle.textContent = el.dataset.title || '';
     }
     function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
 
-    document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => openCard(c)));
+    // Graphics cards
+    document.querySelectorAll('#gallery .card').forEach(c => {
+      c.addEventListener('click', () => {
+        const pool = [...document.querySelectorAll('#gallery .card:not(.hidden)')];
+        openLb(c, pool);
+      });
+    });
+    // Mockup cards
+    document.querySelectorAll('.mockup-card').forEach(c => {
+      c.addEventListener('click', () => openLb(c, [...document.querySelectorAll('.mockup-card')]));
+    });
+    // Budget cards
+    document.querySelectorAll('.budget-card').forEach(c => {
+      c.addEventListener('click', () => openLb(c, [...document.querySelectorAll('.budget-card')]));
+    });
+    // Stat cards
+    document.querySelectorAll('.stat-card').forEach(c => {
+      c.addEventListener('click', () => openLb(c, [...document.querySelectorAll('.stat-card')]));
+    });
+
     document.getElementById('lbClose').addEventListener('click', closeLb);
-    document.getElementById('lbPrev').addEventListener('click', () => { cur = (cur - 1 + visible.length) % visible.length; showSlide(cur); });
-    document.getElementById('lbNext').addEventListener('click', () => { cur = (cur + 1) % visible.length; showSlide(cur); });
+    document.getElementById('lbPrev').addEventListener('click', () => { lbCur = (lbCur - 1 + lbPool.length) % lbPool.length; showLbSlide(lbCur); });
+    document.getElementById('lbNext').addEventListener('click', () => { lbCur = (lbCur + 1) % lbPool.length; showLbSlide(lbCur); });
     lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
     document.addEventListener('keydown', e => {
       if (!lb.classList.contains('open')) return;
@@ -565,21 +867,16 @@
       if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
     });
 
-    // Scroll-in animation
+    // ── Scroll-in animation
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
-          obs.unobserve(e.target);
-        }
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; obs.unobserve(e.target); }
       });
-    }, { threshold: 0.08 });
+    }, { threshold: 0.07 });
 
-    document.querySelectorAll('.card').forEach((c, i) => {
-      c.style.opacity = '0';
-      c.style.transform = 'translateY(24px)';
-      c.style.transition = `opacity 0.5s ${i * 0.04}s ease, transform 0.5s ${i * 0.04}s ease`;
+    document.querySelectorAll('.card, .mockup-card, .budget-card, .stat-card, .placeholder').forEach((c, i) => {
+      c.style.opacity = '0'; c.style.transform = 'translateY(20px)';
+      c.style.transition = `opacity 0.5s ${i * 0.03}s ease, transform 0.5s ${i * 0.03}s ease`;
       obs.observe(c);
     });
   </script>
