@@ -11,7 +11,7 @@
       --orange: #e86e1e; --dark-gray: #1c1c1c;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body { background: var(--black); color: var(--off-white); font-family: 'DM Sans', sans-serif; }
     body::before {
       content: ''; position: fixed; inset: 0;
@@ -60,7 +60,6 @@
     /* ── DECK GRID ── */
     .decks-wrap { padding: 60px 60px 80px; }
     @media (max-width: 768px) { .decks-wrap { padding: 40px 24px 60px; } }
-
     .decks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
     @media (max-width: 900px) { .decks-grid { grid-template-columns: 1fr; } }
 
@@ -74,23 +73,12 @@
       display: flex; align-items: center; justify-content: center;
     }
     .deck-card:hover { transform: scale(0.985); border-color: rgba(232,110,30,0.4); }
-
-    /* PDF preview thumbnail */
     .deck-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
     .deck-card:hover img { transform: scale(1.03); }
 
-    /* No-image state (placeholder) */
-    .deck-card.no-preview {
-      background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
-      flex-direction: column; gap: 20px;
-      padding: 40px;
-    }
-    .deck-card.no-preview .deck-icon { font-size: 40px; opacity: 0.3; }
-    .deck-card.no-preview .deck-placeholder-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(18px, 2vw, 26px); font-weight: 700;
-      text-align: center; line-height: 1.3; opacity: 0.35;
-    }
+    /* Video card variant */
+    .deck-card.video-card { cursor: default; }
+    .deck-card.video-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     /* Overlay on hover */
     .deck-overlay {
@@ -99,7 +87,7 @@
       opacity: 0; transition: opacity 0.4s;
       display: flex; flex-direction: column; justify-content: flex-end; padding: 28px;
     }
-    .deck-card:hover .deck-overlay { opacity: 1; }
+    .deck-card:not(.video-card):hover .deck-overlay { opacity: 1; }
     .deck-client { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
     .deck-name { font-family: 'Playfair Display', serif; font-size: clamp(16px, 1.8vw, 22px); font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
     .deck-meta { font-size: 11px; color: rgba(245,242,236,0.45); letter-spacing: 0.1em; text-transform: uppercase; }
@@ -123,6 +111,7 @@
       background: rgba(10,10,10,0.85); border: 1px solid rgba(232,110,30,0.4);
       color: var(--orange); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
       padding: 5px 10px; border-radius: 100px; backdrop-filter: blur(4px);
+      pointer-events: none;
     }
 
     /* ── PLACEHOLDER CARD ── */
@@ -161,12 +150,9 @@
 
     /* ── NOTE BAR ── */
     .note-bar {
-      margin: 0 60px 40px;
-      padding: 16px 22px;
-      background: rgba(232,110,30,0.06);
-      border: 1px solid rgba(232,110,30,0.2);
-      border-radius: 6px;
-      display: flex; align-items: flex-start; gap: 14px;
+      margin: 0 60px 40px; padding: 16px 22px;
+      background: rgba(232,110,30,0.06); border: 1px solid rgba(232,110,30,0.2);
+      border-radius: 6px; display: flex; align-items: flex-start; gap: 14px;
     }
     .note-bar .note-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
     .note-bar p { font-size: 13px; line-height: 1.6; color: rgba(245,242,236,0.6); }
@@ -247,56 +233,75 @@
   <div class="decks-wrap">
     <div class="decks-grid">
 
-      <!-- DECK 1: CONSTRO-EXCEL — PDF available locally -->
-      <div class="deck-card" data-title="Constro-Excel Company Profile" data-client="Constro-Excel" data-file="26_06_2025_CONSTRO-EXCEL_PROFILE_TEMPLATE_(2).pdf">
+      <!-- DECK 1: CONSTRO-EXCEL -->
+      <div class="deck-card"
+           data-title="Constro-Excel Company Profile"
+           data-client="Constro-Excel"
+           data-file="26_06_2025_CONSTRO-EXCEL_PROFILE_TEMPLATE_(2).pdf">
         <div class="deck-icon" style="font-size:56px;opacity:0.15;position:absolute;">🏗️</div>
         <div class="deck-overlay">
           <div class="deck-client">Constro-Excel</div>
           <div class="deck-name">Constro-Excel Company Profile</div>
           <div class="deck-meta">Construction · Brand Document · 2025</div>
-          <a class="deck-view-btn" id="btn-constro">▶ &nbsp;View Deck</a>
+          <a class="deck-view-btn">▶ &nbsp;View Deck</a>
         </div>
         <div class="deck-confidential">Client Document</div>
       </div>
 
-      <!-- DECK 2: PHYSI-DEV — PDF available locally -->
-      <div class="deck-card" data-title="Physi-Dev Limited Company Profile" data-client="Physi-Dev Limited" data-file="PHYSI-DEV_LIMITED_COMPANY_PROFILE_TEMPLATE_01_(1).pdf">
+      <!-- DECK 2: PHYSI-DEV -->
+      <div class="deck-card"
+           data-title="Physi-Dev Limited Company Profile"
+           data-client="Physi-Dev Limited"
+           data-file="PHYSI-DEV_LIMITED_COMPANY_PROFILE_TEMPLATE_01_(1).pdf">
         <div class="deck-icon" style="font-size:56px;opacity:0.15;position:absolute;">⚡</div>
         <div class="deck-overlay">
           <div class="deck-client">Physi-Dev Limited</div>
           <div class="deck-name">Physi-Dev Company Profile</div>
           <div class="deck-meta">Engineering · Brand Document · 2025</div>
-          <a class="deck-view-btn" id="btn-physi">▶ &nbsp;View Deck</a>
+          <a class="deck-view-btn">▶ &nbsp;View Deck</a>
         </div>
         <div class="deck-confidential">Client Document</div>
       </div>
 
-      <!-- DECK 3: SPACE SPECTRUM — PDF available locally -->
-<div class="deck-card" data-title="Space Spectrum Limited Company Profile" 
-     data-client="Space Spectrum Limited" 
-     data-file="08032026_Space_Spectrum_Limited_Company_Profile_compressed.pdf">
-  ...
-  <a class="deck-view-btn" id="btn-space">▶ &nbsp;View Deck</a>
+      <!-- DECK 3: SPACE SPECTRUM -->
+      <div class="deck-card"
+           data-title="Space Spectrum Limited Company Profile"
+           data-client="Space Spectrum Limited"
+           data-file="08032026_Space_Spectrum_Limited_Company_Profile_compressed.pdf">
+        <div class="deck-icon" style="font-size:56px;opacity:0.15;position:absolute;">🏢</div>
+        <div class="deck-overlay">
+          <div class="deck-client">Space Spectrum Limited</div>
+          <div class="deck-name">Space Spectrum Limited</div>
+          <div class="deck-meta">Construction · Brand Document · 2026</div>
+          <a class="deck-view-btn">▶ &nbsp;View Deck</a>
+        </div>
+        <div class="deck-confidential">Client Document</div>
+      </div>
 
-      <!-- DECK 3: ELPAZIO — PDF available locally -->
-      <div class="deck-card" data-title="ELPAZIO Limited Company Profile" data-client="ELPAZIO Limited" data-file="ELPAZIO_PROFESSIONAL_COMPANY_PROFILE_160326.pdf">
+      <!-- DECK 4: ELPAZIO -->
+      <div class="deck-card"
+           data-title="ELPAZIO Limited Company Profile"
+           data-client="ELPAZIO Limited"
+           data-file="ELPAZIO_PROFESSIONAL_COMPANY_PROFILE_160326.pdf">
         <div class="deck-icon" style="font-size:56px;opacity:0.15;position:absolute;">⚡</div>
         <div class="deck-overlay">
           <div class="deck-client">ELPAZIO Limited</div>
-          <div class="deck-name">Elpazio Limited</div>
-          <div class="deck-meta">Hospitality Innovative Solution · Brand Document · 2025</div>
-          <a class="deck-view-btn" id="btn-elpazio">▶ &nbsp;View Deck</a>
+          <div class="deck-name">Elpazio Limited Company Profile</div>
+          <div class="deck-meta">Technology Solutions · Brand Document · 2026</div>
+          <a class="deck-view-btn">▶ &nbsp;View Deck</a>
         </div>
         <div class="deck-confidential">Client Document</div>
       </div>
 
-      <!-- PLACEHOLDER SLOTS for future decks -->
-      <div class= "deck-card" data-title="Abuja Interversity Tech Profile">
-        <video width="100%" height="480" controls>
-  <source src="Abuja_Intervarsity_Tech_Expo_2026.mp4" type="video/mp4">
-</video>
+      <!-- DECK 5: VIDEO CARD — Abuja Intervarsity Tech Expo -->
+      <div class="deck-card video-card">
+        <video controls style="width:100%;height:100%;object-fit:cover;">
+          <source src="Abuja_Intervarsity_Tech_Expo_2026.mp4" type="video/mp4">
+        </video>
+        <div class="deck-confidential">Presentation</div>
       </div>
 
+      <!-- PLACEHOLDER -->
       <div class="placeholder-deck">
         <div class="ph-icon">📑</div>
         <div class="ph-title">More Decks Coming</div>
@@ -323,70 +328,83 @@
     <div class="footer-copy">© 2025 Martins Ogundare</div>
   </footer>
 
-<script>
-  // Scroll + nav
-  const scrollBar = document.getElementById('scrollBar');
-  const mainNav   = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => {
-    scrollBar.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
-    mainNav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
-  // Ticker
-  const words = ['Company Profiles','Pitch Decks','Brand Documents','Business Proposals','Client Presentations','Strategic Decks'];
-  const tickerTrack = document.getElementById('tickerTrack');
-  const html = words.map(w => `<span class="ticker-item"><span class="tdot">✦</span>${w}</span>`).join('');
-  tickerTrack.innerHTML = html + html;
-
-  // PDF Modal
-  const modal    = document.getElementById('pdfModal');
-  const pdfFrame = document.getElementById('pdfFrame');
-  const pdfTitle = document.getElementById('pdfTitle');
-  const pdfSub   = document.getElementById('pdfSub');
-
-  function openPDF(file, title, client) {
-    pdfTitle.textContent = title;
-    pdfSub.textContent   = client;
-    pdfFrame.src = file;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closePDF() {
-    modal.classList.remove('open');
-    pdfFrame.src = '';
-    document.body.style.overflow = '';
-  }
-
-  // ✅ ONE listener handles ALL deck cards — current and future
-  document.querySelectorAll('.deck-view-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      const card   = this.closest('.deck-card');
-      const file   = card.getAttribute('data-file');
-      const title  = card.getAttribute('data-title');
-      const client = card.getAttribute('data-client');
-      openPDF(file, title, client);
+  <script>
+    // Scroll + nav
+    const scrollBar = document.getElementById('scrollBar');
+    const mainNav   = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      scrollBar.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+      mainNav.classList.toggle('scrolled', window.scrollY > 60);
     });
-  });
 
-  document.getElementById('pdfClose').addEventListener('click', closePDF);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
+    // Ticker
+    const words = ['Company Profiles','Pitch Decks','Brand Documents','Business Proposals','Client Presentations','Strategic Decks'];
+    const tickerTrack = document.getElementById('tickerTrack');
+    const tickHtml = words.map(w => `<span class="ticker-item"><span class="tdot">✦</span>${w}</span>`).join('');
+    tickerTrack.innerHTML = tickHtml + tickHtml;
 
-  // Scroll-in animation
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity='1';
-        e.target.style.transform='translateY(0)';
-        obs.unobserve(e.target);
-      }
+    // PDF Modal
+    const modal    = document.getElementById('pdfModal');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const pdfTitle = document.getElementById('pdfTitle');
+    const pdfSub   = document.getElementById('pdfSub');
+
+    function openPDF(file, title, client) {
+      pdfTitle.textContent = title;
+      pdfSub.textContent   = client;
+      pdfFrame.src = file;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePDF() {
+      modal.classList.remove('open');
+      pdfFrame.src = '';
+      document.body.style.overflow = '';
+    }
+
+    // ONE listener handles ALL deck cards — current and future
+    document.querySelectorAll('.deck-view-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const card   = this.closest('.deck-card');
+        const file   = card.getAttribute('data-file');
+        const title  = card.getAttribute('data-title');
+        const client = card.getAttribute('data-client');
+        if (file) openPDF(file, title, client);
+      });
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.deck-card, .placeholder-deck').forEach((c, i) => {
-    c.style.opacity = '0'; c.style.transform = 'translateY(20px)';
-    c.style.transition = `opacity 0.5s ${i*0.1}s ease, transform 0.5s ${i*0.1}s ease`;
-    obs.observe(c);
-  });
-</script>
+
+    // Clicking anywhere on a PDF card also opens it
+    document.querySelectorAll('.deck-card:not(.video-card)').forEach(function(card) {
+      card.addEventListener('click', function() {
+        const file   = this.getAttribute('data-file');
+        const title  = this.getAttribute('data-title');
+        const client = this.getAttribute('data-client');
+        if (file) openPDF(file, title, client);
+      });
+    });
+
+    document.getElementById('pdfClose').addEventListener('click', closePDF);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
+
+    // Scroll-in animation
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.deck-card, .placeholder-deck').forEach((c, i) => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(20px)';
+      c.style.transition = `opacity 0.5s ${i * 0.1}s ease, transform 0.5s ${i * 0.1}s ease`;
+      obs.observe(c);
+    });
+  </script>
 </body>
 </html>
