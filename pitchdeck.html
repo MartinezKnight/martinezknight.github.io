@@ -272,16 +272,11 @@
       </div>
 
       <!-- DECK 3: SPACE SPECTRUM — PDF available locally -->
-      <div class="deck-card" data-title="Space Spectrum Limited Company Profile" data-client="Space Spectrum Limited" data-file="08032026 Space Spectrum Limited Company Profile _compressed.pdf">
-        <div class="deck-icon" style="font-size:56px;opacity:0.15;position:absolute;">⚡</div>
-        <div class="deck-overlay">
-          <div class="deck-client">Space Spectrum Limited</div>
-          <div class="deck-name">Space Spectrum Limited</div>
-          <div class="deck-meta">Construction · Brand Document · 2025</div>
-          <a class="deck-view-btn" id="btn-physi">▶ &nbsp;View Deck</a>
-        </div>
-        <div class="deck-confidential">Client Document</div>
-      </div>
+<div class="deck-card" data-title="Space Spectrum Limited Company Profile" 
+     data-client="Space Spectrum Limited" 
+     data-file="08032026_Space_Spectrum_Limited_Company_Profile_compressed.pdf">
+  ...
+  <a class="deck-view-btn" id="btn-space">▶ &nbsp;View Deck</a>
 
       <!-- DECK 3: ELPAZIO — PDF available locally -->
       <div class="deck-card" data-title="ELPAZIO Limited Company Profile" data-client="ELPAZIO Limited" data-file="ELPAZIO_PROFESSIONAL_COMPANY_PROFILE_160326.pdf">
@@ -328,63 +323,70 @@
     <div class="footer-copy">© 2025 Martins Ogundare</div>
   </footer>
 
-  <script>
-    // Scroll + nav
-    const scrollBar = document.getElementById('scrollBar');
-    const mainNav   = document.getElementById('main-nav');
-    window.addEventListener('scroll', () => {
-      scrollBar.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
-      mainNav.classList.toggle('scrolled', window.scrollY > 60);
-    });
+<script>
+  // Scroll + nav
+  const scrollBar = document.getElementById('scrollBar');
+  const mainNav   = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    scrollBar.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+    mainNav.classList.toggle('scrolled', window.scrollY > 60);
+  });
 
-    // Ticker
-    const words = ['Company Profiles','Pitch Decks','Brand Documents','Business Proposals','Client Presentations','Strategic Decks'];
-    const tickerTrack = document.getElementById('tickerTrack');
-    const html = words.map(w => `<span class="ticker-item"><span class="tdot">✦</span>${w}</span>`).join('');
-    tickerTrack.innerHTML = html + html;
+  // Ticker
+  const words = ['Company Profiles','Pitch Decks','Brand Documents','Business Proposals','Client Presentations','Strategic Decks'];
+  const tickerTrack = document.getElementById('tickerTrack');
+  const html = words.map(w => `<span class="ticker-item"><span class="tdot">✦</span>${w}</span>`).join('');
+  tickerTrack.innerHTML = html + html;
 
-    // PDF Modal
-    const modal     = document.getElementById('pdfModal');
-    const pdfFrame  = document.getElementById('pdfFrame');
-    const pdfTitle  = document.getElementById('pdfTitle');
-    const pdfSub    = document.getElementById('pdfSub');
+  // PDF Modal
+  const modal    = document.getElementById('pdfModal');
+  const pdfFrame = document.getElementById('pdfFrame');
+  const pdfTitle = document.getElementById('pdfTitle');
+  const pdfSub   = document.getElementById('pdfSub');
 
-    function openPDF(file, title, client) {
-      pdfTitle.textContent = title;
-      pdfSub.textContent   = client;
-      pdfFrame.src = file;
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closePDF() {
-      modal.classList.remove('open');
-      pdfFrame.src = '';
-      document.body.style.overflow = '';
-    }
+  function openPDF(file, title, client) {
+    pdfTitle.textContent = title;
+    pdfSub.textContent   = client;
+    pdfFrame.src = file;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePDF() {
+    modal.classList.remove('open');
+    pdfFrame.src = '';
+    document.body.style.overflow = '';
+  }
 
-    document.getElementById('btn-constro').addEventListener('click', (e) => {
+  // ✅ ONE listener handles ALL deck cards — current and future
+  document.querySelectorAll('.deck-view-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
       e.preventDefault();
-      openPDF('26_06_2025_CONSTRO-EXCEL_PROFILE_TEMPLATE_(2).pdf', 'Constro-Excel Company Profile', 'Constro-Excel · 2025');
+      const card   = this.closest('.deck-card');
+      const file   = card.getAttribute('data-file');
+      const title  = card.getAttribute('data-title');
+      const client = card.getAttribute('data-client');
+      openPDF(file, title, client);
     });
-    document.getElementById('btn-physi').addEventListener('click', (e) => {
-      e.preventDefault();
-      openPDF('PHYSI-DEV_LIMITED_COMPANY_PROFILE_TEMPLATE_01_(1).pdf', 'Physi-Dev Limited Company Profile', 'Physi-Dev Limited · 2025');
-    });
+  });
 
-    document.getElementById('pdfClose').addEventListener('click', closePDF);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
+  document.getElementById('pdfClose').addEventListener('click', closePDF);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
 
-    // Scroll-in animation
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.deck-card, .placeholder-deck').forEach((c, i) => {
-      c.style.opacity = '0'; c.style.transform = 'translateY(20px)';
-      c.style.transition = `opacity 0.5s ${i*0.1}s ease, transform 0.5s ${i*0.1}s ease`;
-      obs.observe(c);
+  // Scroll-in animation
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity='1';
+        e.target.style.transform='translateY(0)';
+        obs.unobserve(e.target);
+      }
     });
-  </script>
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.deck-card, .placeholder-deck').forEach((c, i) => {
+    c.style.opacity = '0'; c.style.transform = 'translateY(20px)';
+    c.style.transition = `opacity 0.5s ${i*0.1}s ease, transform 0.5s ${i*0.1}s ease`;
+    obs.observe(c);
+  });
+</script>
 </body>
 </html>
