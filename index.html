@@ -11,13 +11,15 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow-x:hidden}
 
-/* CURSOR */
-#cur{position:fixed;width:8px;height:8px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
-#cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(232,197,71,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .2s}
+
+/* HERO BACKGROUND LAYERS */
+.hero-bg-layers{position:absolute;inset:0;pointer-events:none;z-index:0}
+.hero-bg-layers::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 20% 40%,rgba(232,197,71,.07) 0%,transparent 60%),radial-gradient(ellipse 50% 45% at 75% 65%,rgba(201,123,58,.05) 0%,transparent 55%),radial-gradient(ellipse 40% 40% at 55% 90%,rgba(80,40,180,.05) 0%,transparent 55%)}
+.hero-bg-layers::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(232,197,71,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(232,197,71,.028) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 85% 85% at 25% 45%,black 20%,transparent 100%)}
 
 /* LOADER */
 #loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;transition:opacity .8s}
-.ld-name{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--acc);letter-spacing:.3em;text-transform:uppercase}
+.ld-name{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--acc);letter-spacing:.18em;text-transform:uppercase}
 .ld-bar{width:180px;height:1px;background:#1e1e1e;overflow:hidden}
 .ld-fill{height:100%;width:0;background:var(--acc);animation:ldFill 1.6s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes ldFill{to{width:100%}}
@@ -34,13 +36,14 @@ nav.s{background:rgba(8,8,8,.94);backdrop-filter:blur(20px);border-color:var(--b
 
 /* HERO */
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
-canvas{position:absolute;inset:0;pointer-events:none}
+canvas{position:absolute;inset:0;pointer-events:none;z-index:1}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 100% at 50% 100%,rgba(0,0,0,.55) 0%,transparent 60%);pointer-events:none;z-index:1}
 .h-left{display:flex;flex-direction:column;justify-content:center;padding:10rem 5rem 5rem;position:relative;z-index:2}
-.h-eye{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--acc);margin-bottom:2rem;display:flex;align-items:center;gap:.9rem;opacity:0;animation:rise .9s .2s forwards}
+.h-eye{font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem;display:flex;align-items:center;gap:.9rem;opacity:0;animation:rise .9s .2s forwards}
 .h-line{width:28px;height:1px;background:var(--acc)}
 .h-title{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,5.5vw,6.5rem);font-weight:900;line-height:.95;letter-spacing:-.03em;opacity:0;animation:rise .9s .4s forwards}
 .h-title .it{font-style:italic;color:var(--acc);display:block}
-.h-title .out{-webkit-text-stroke:1.5px var(--txt);color:transparent;display:block}
+.h-title .out{-webkit-text-stroke:1.5px rgba(240,237,230,.35);color:transparent;display:block;font-size:.85em;line-height:1.1}
 .h-sub{margin-top:1.8rem;font-size:.97rem;color:var(--muted);max-width:380px;font-weight:300;line-height:1.8;opacity:0;animation:rise .9s .6s forwards}
 .h-btns{display:flex;gap:1rem;margin-top:2.8rem;opacity:0;animation:rise .9s .8s forwards}
 .btn-a{background:var(--acc);color:#080808;padding:.85rem 2.2rem;border:none;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s;display:inline-block}
@@ -49,7 +52,8 @@ canvas{position:absolute;inset:0;pointer-events:none}
 .btn-b:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
 .h-right{display:flex;align-items:center;justify-content:center;z-index:2;position:relative}
 .h-stats{display:flex;flex-direction:column;gap:3rem;padding:10rem 3rem 5rem;opacity:0;animation:rise .9s 1s forwards}
-.stat{border-left:2px solid var(--acc);padding-left:1.8rem}
+.stat{border-left:2px solid rgba(232,197,71,.45);padding-left:1.8rem;transition:border-color .3s}
+.stat:hover{border-color:var(--acc)}
 .s-num{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;color:var(--acc);line-height:1}
 .s-lbl{font-size:.72rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:.3rem}
 .bg-txt{position:absolute;font-family:'Playfair Display',serif;font-size:28vw;font-weight:900;color:#111;line-height:1;user-select:none;right:-2vw;bottom:-3vw;pointer-events:none;opacity:0;animation:fade .8s 1.2s forwards}
@@ -72,17 +76,17 @@ canvas{position:absolute;inset:0;pointer-events:none}
 /* LAYOUT */
 .wrap{max-width:1280px;margin:0 auto;padding:0 5rem}
 .sec{padding:8rem 0}
-.s-lbl{font-family:'DM Mono',monospace;font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--acc);margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem}
+.s-lbl{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:.9rem;display:flex;align-items:center;gap:.8rem;opacity:.85}
 .s-lbl::before{content:'';width:18px;height:1px;background:var(--acc)}
 .s-ttl{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:700;line-height:1.15}
 .s-ttl em{font-style:italic;color:var(--acc)}
 .divider{width:100%;height:1px;background:var(--bdr)}
 
 /* SKILLS */
-.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bdr);border:1px solid var(--bdr);margin-top:3rem}
-.sk-card{background:var(--surf);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s}
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:3rem}
+.sk-card{background:var(--surf2);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s,border-color .3s,transform .3s;border-radius:10px;border:1px solid var(--bdr)}
 .sk-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.4,0,.2,1)}
-.sk-card:hover{background:var(--surf2)}
+.sk-card:hover{background:var(--surf);transform:translateY(-3px);border-color:rgba(232,197,71,.18)}
 .sk-card:hover::after{transform:scaleX(1)}
 .sk-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(232,197,71,.07) 0%,transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
 .sk-card:hover .sk-glow{opacity:1}
@@ -102,7 +106,7 @@ canvas{position:absolute;inset:0;pointer-events:none}
 .e-role{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;margin-bottom:.7rem;transition:color .3s;line-height:1.25}
 .exp:hover .e-role{color:var(--acc)}
 .e-desc{font-size:.86rem;color:var(--muted);line-height:1.76;max-width:580px}
-.e-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--tag);border:1px solid rgba(232,197,71,.18);color:var(--acc);font-family:'DM Mono',monospace;font-size:.62rem;padding:.28rem .75rem;margin-top:.9rem;letter-spacing:.05em}
+.e-badge{display:inline-flex;align-items:center;gap:.6rem;background:transparent;border:none;border-left:2px solid rgba(232,197,71,.3);color:var(--muted);font-family:'DM Mono',monospace;font-size:.62rem;padding:.2rem 0 .2rem .75rem;margin-top:.9rem;letter-spacing:.05em;font-style:italic;line-height:1.6}
 
 /* WORKS – live sites */
 .w-feat{width:100%;border-top:1px solid var(--bdr)}
@@ -124,14 +128,16 @@ canvas{position:absolute;inset:0;pointer-events:none}
 .w-desc{font-size:.86rem;color:var(--muted);line-height:1.78;margin-bottom:1.4rem}
 .w-buls{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.6rem}
 .w-bul{font-size:.81rem;color:var(--txt);opacity:.72;display:flex;align-items:flex-start;gap:.6rem}
-.w-bul::before{content:'✦';color:var(--acc);font-size:.52rem;flex-shrink:0;margin-top:.2rem}
-.w-lnk{display:inline-flex;align-items:center;gap:.5rem;color:var(--acc);text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:.08em;border-bottom:1px solid rgba(232,197,71,.25);padding-bottom:.2rem;width:fit-content;transition:all .3s}
-.w-lnk:hover{letter-spacing:.14em;border-color:var(--acc)}
+.w-bul::before{content:'→';color:var(--acc);font-size:.52rem;flex-shrink:0;margin-top:.2rem}
+.w-lnk{display:inline-flex;align-items:center;gap:.6rem;color:var(--acc);text-decoration:none;font-size:.8rem;font-weight:600;letter-spacing:.06em;border-bottom:1px solid rgba(232,197,71,.22);padding-bottom:.25rem;width:fit-content;transition:gap .25s,border-color .25s,letter-spacing .25s}
+.w-lnk:hover{gap:1rem;border-color:var(--acc);letter-spacing:.1em}
+.w-lnk::after{content:'→';font-size:.85em;transition:transform .25s}
+.w-lnk:hover::after{transform:translateX(3px)}
 
 /* GALLERY */
 .gal-sec{background:var(--surf);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:7rem 5rem}
-.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:2.5rem}
-.gi{position:relative;overflow:hidden;aspect-ratio:1;background:var(--surf2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem;padding:1.5rem;text-align:center}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:2.5rem}
+.gi{position:relative;overflow:hidden;aspect-ratio:1;background:var(--surf2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem;padding:1.5rem;text-align:center;border-radius:4px}
 .gi.w2{grid-column:span 2;aspect-ratio:2/1}
 .gi-icon{font-size:2.2rem;transition:transform .4s}
 .gi:hover .gi-icon{transform:scale(1.2) rotate(-5deg)}
@@ -153,8 +159,8 @@ canvas{position:absolute;inset:0;pointer-events:none}
 .gi.c8{background:linear-gradient(135deg,#18180d,#232310)}
 
 /* MOCKUPS */
-.mk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:2.5rem}
-.mk-item{position:relative;overflow:hidden;background:var(--surf2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;min-height:280px;padding:2.5rem;text-align:center;cursor:default}
+.mk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:2.5rem}
+.mk-item{position:relative;overflow:hidden;background:var(--surf2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;min-height:280px;padding:2.5rem;text-align:center;cursor:default;border-radius:10px}
 .mk-icon{font-size:3rem;transition:transform .4s;display:block}
 .mk-item:hover .mk-icon{transform:scale(1.15) rotate(-8deg)}
 .mk-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;transition:color .3s}
@@ -166,9 +172,9 @@ canvas{position:absolute;inset:0;pointer-events:none}
 .mk-hs{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--acc);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem}
 
 /* INFOGRAPHICS */
-.info-grid{display:grid;grid-template-columns:2fr 1fr;gap:3px;margin-top:2.5rem}
-.info-grid2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:3px}
-.inf{position:relative;overflow:hidden;background:var(--surf2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;min-height:360px;padding:2.5rem;text-align:center;cursor:default}
+.info-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:2.5rem}
+.info-grid2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px}
+.inf{position:relative;overflow:hidden;background:var(--surf2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;min-height:360px;padding:2.5rem;text-align:center;cursor:default;border-radius:10px}
 .inf-icon{font-size:3rem;transition:transform .4s}
 .inf:hover .inf-icon{transform:scale(1.1) rotate(5deg)}
 .inf-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;line-height:1.3;transition:color .3s}
@@ -181,15 +187,15 @@ canvas{position:absolute;inset:0;pointer-events:none}
 .inf.c3{background:linear-gradient(135deg,#0d1a0d,#152415)}
 .inf.c4{background:linear-gradient(135deg,#1a1a0d,#252510)}
 .inf.c5{background:linear-gradient(135deg,#0d0d0d,#181818)}
-.sbadges{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bdr);border:1px solid var(--bdr);margin-top:3px}
-.sb{background:var(--surf);padding:1.5rem;text-align:center;transition:background .3s}
-.sb:hover{background:var(--surf2)}
+.sbadges{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.sb{background:var(--surf2);padding:1.5rem;text-align:center;transition:background .3s,border-color .3s;border:1px solid var(--bdr);border-radius:8px}
+.sb:hover{background:var(--surf);border-color:rgba(232,197,71,.2)}
 .sb-v{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--acc)}
 .sb-l{font-size:.7rem;color:var(--muted);margin-top:.3rem}
 
 /* VIDEO */
 .vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
-.vid-card{background:var(--surf);border:1px solid var(--bdr);overflow:hidden;transition:border-color .3s,transform .3s;text-decoration:none;display:block}
+.vid-card{background:var(--surf);border:1px solid var(--bdr);overflow:hidden;transition:border-color .3s,transform .3s;text-decoration:none;display:block;border-radius:10px}
 .vid-card:hover{border-color:var(--acc);transform:translateY(-4px)}
 .vid-thumb{height:210px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;position:relative;overflow:hidden}
 .vid-play{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:transform .3s}
@@ -206,9 +212,9 @@ canvas{position:absolute;inset:0;pointer-events:none}
 /* TOOLS */
 .tools-sec{background:var(--surf);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:6rem 5rem}
 .tools-cloud{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.5rem}
-.tp{background:var(--bg);border:1px solid var(--bdr);color:var(--muted);font-size:.82rem;font-weight:500;padding:.6rem 1.2rem;display:flex;align-items:center;gap:.5rem;transition:all .3s;cursor:default}
-.tp:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
-.td{width:5px;height:5px;border-radius:50%;background:var(--acc);flex-shrink:0}
+.tp{background:var(--bg);border:1px solid var(--bdr);color:var(--muted);font-size:.8rem;font-weight:500;padding:.55rem 1.1rem;display:flex;align-items:center;gap:.55rem;transition:all .28s;cursor:default;border-radius:4px}
+.tp:hover{border-color:rgba(232,197,71,.4);color:var(--txt);background:var(--surf2);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.td{width:4px;height:4px;border-radius:50%;background:var(--acc);flex-shrink:0;opacity:.6}
 
 /* CONTACT */
 .cta-sec{background:var(--acc);color:#080808;padding:9rem 5rem;text-align:center;position:relative;overflow:hidden}
@@ -284,9 +290,6 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur-r"></div>
-
 <!-- LOADER -->
 <div id="loader">
   <div class="ld-name">M. Ogundare</div>
@@ -296,7 +299,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nlogo">M. Ogundare</div>
+  <div class="nlogo">Martins Ogundare</div>
   <ul class="nlinks">
     <li><a href="#skills">Skills</a></li>
     <li><a href="#works">Works</a></li>
@@ -309,6 +312,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
 
 <!-- HERO -->
 <div class="hero">
+  <div class="hero-bg-layers"></div>
   <canvas id="particles"></canvas>
   <div class="h-left">
     <div class="h-eye"><span class="h-line"></span>Brand Strategist · Digital Designer · Growth Marketer</div>
@@ -389,12 +393,12 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
     <div class="s-lbl anim">Career Timeline</div>
     <h2 class="s-ttl anim">Where I've <em>Made Impact</em></h2>
     <div class="exp-wrap">
-      <div class="exp anim"><div><div class="e-yr">2025 – Present</div><div class="e-co">Elpazio Limited</div></div><div><div class="e-role">Brand & Digital Marketing Specialist</div><div class="e-desc">Leading brand strategy, visual communications, and digital campaigns for this 35-year-old technology solutions powerhouse serving Marriott, Sheraton, Radisson Blu, and NCC. Designed the complete 15-page company profile, letterhead system, full brand mockup suite, and ongoing digital marketing strategy.</div><div class="e-badge">✦ Full digital infrastructure · Brand · Website · Server · Social Media · Google My Business · Ads</div></div></div>
-      <div class="exp anim"><div><div class="e-yr">2025 – Present</div><div class="e-co">Goodland Xclusive Company</div></div><div><div class="e-role">Head of Digital & Media Operations</div><div class="e-desc">Running the complete digital operation for Goodland Xclusive Group — from web development and booking systems to Meta advertising, social media management, and team leadership. Set KPIs: 20% MoM growth, 200+ leads/quarter, 3 viral campaigns. Built the group's entire digital infrastructure from scratch including 18+ website pages.</div><div class="e-badge">✦ Head, Trendsetters Dept. · 18+ pages built · Meta Ads · Booking Systems · Team Lead</div></div></div>
-      <div class="exp anim"><div><div class="e-yr">2025</div><div class="e-co">Linkon Communications</div></div><div><div class="e-role">Marketing Lead — Starlink Rollout</div><div class="e-desc">Directed digital awareness campaigns for Starlink-powered internet rollout across Nigeria. Designed social media strategies that measurably boosted customer acquisition and drove consistent weekly sales growth.</div><div class="e-badge">✦ Increased weekly sales via targeted digital campaigns</div></div></div>
-      <div class="exp anim"><div><div class="e-yr">2022 – 2025</div><div class="e-co">Space Spectrum Ltd.</div></div><div><div class="e-role">Business Development Executive</div><div class="e-desc">Drove client acquisition and market expansion for an affordable housing and architectural services firm. Built lasting client relationships and spearheaded cross-functional growth initiatives across multiple markets.</div><div class="e-badge">✦ Expanded service reach across key target markets</div></div></div>
-      <div class="exp anim"><div><div class="e-yr">2021 – 2022</div><div class="e-co">DigiTalents Hub</div></div><div><div class="e-role">Digital Marketing Lead</div><div class="e-desc">Led digital campaigns for blockchain and fintech projects. Managed SEO, PPC, content strategy, and community building across Twitter, LinkedIn, and Telegram. Achieved 79% organic traffic growth through strategic execution.</div><div class="e-badge">✦ 79% organic traffic growth achieved</div></div></div>
-      <div class="exp anim"><div><div class="e-yr">2020 – Present</div><div class="e-co">HubConnect</div></div><div><div class="e-role">Founder & Brand Architect</div><div class="e-desc">Founded HubConnect — a digital marketplace connecting artisans, vendors, and service providers across Africa. Designed the full brand identity, UI/UX, infographic strategy, and marketing system from scratch. Pitched at the NIDCOM Diaspora Investment Summit.</div><div class="e-badge">✦ Pitched at NIDCOM Diaspora Investment Summit · 100+ brand assets created</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2025 – Present</div><div class="e-co">Elpazio Limited</div></div><div><div class="e-role">Brand & Digital Marketing Specialist</div><div class="e-desc">Leading brand strategy, visual communications, and digital campaigns for this 35-year-old technology solutions powerhouse serving Marriott, Sheraton, Radisson Blu, and NCC. Designed the complete 15-page company profile, letterhead system, full brand mockup suite, and ongoing digital marketing strategy.</div><div class="e-badge">Full digital infrastructure · Brand · Website · Server · Social Media · Google My Business · Ads</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2025 – Present</div><div class="e-co">Goodland Xclusive Company</div></div><div><div class="e-role">Head of Digital & Media Operations</div><div class="e-desc">Running the complete digital operation for Goodland Xclusive Group — from web development and booking systems to Meta advertising, social media management, and team leadership. Set KPIs: 20% MoM growth, 200+ leads/quarter, 3 viral campaigns. Built the group's entire digital infrastructure from scratch including 18+ website pages.</div><div class="e-badge">Head, Trendsetters Dept. · 18+ pages built · Meta Ads · Booking Systems · Team Lead</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2025</div><div class="e-co">Linkon Communications</div></div><div><div class="e-role">Marketing Lead — Starlink Rollout</div><div class="e-desc">Directed digital awareness campaigns for Starlink-powered internet rollout across Nigeria. Designed social media strategies that measurably boosted customer acquisition and drove consistent weekly sales growth.</div><div class="e-badge">Increased weekly sales via targeted digital campaigns</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2022 – 2025</div><div class="e-co">Space Spectrum Ltd.</div></div><div><div class="e-role">Business Development Executive</div><div class="e-desc">Drove client acquisition and market expansion for an affordable housing and architectural services firm. Built lasting client relationships and spearheaded cross-functional growth initiatives across multiple markets.</div><div class="e-badge">Expanded service reach across key target markets</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2021 – 2022</div><div class="e-co">DigiTalents Hub</div></div><div><div class="e-role">Digital Marketing Lead</div><div class="e-desc">Led digital campaigns for blockchain and fintech projects. Managed SEO, PPC, content strategy, and community building across Twitter, LinkedIn, and Telegram. Achieved 79% organic traffic growth through strategic execution.</div><div class="e-badge">79% organic traffic growth achieved</div></div></div>
+      <div class="exp anim"><div><div class="e-yr">2020 – Present</div><div class="e-co">HubConnect</div></div><div><div class="e-role">Founder & Brand Architect</div><div class="e-desc">Founded HubConnect — a digital marketplace connecting artisans, vendors, and service providers across Africa. Designed the full brand identity, UI/UX, infographic strategy, and marketing system from scratch. Pitched at the NIDCOM Diaspora Investment Summit.</div><div class="e-badge">Pitched at NIDCOM Diaspora Investment Summit · 100+ brand assets created</div></div></div>
     </div>
   </div>
 </section>
@@ -416,8 +420,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
       <div class="w-browser anim ar">
         <div class="w-bar"><div class="w-dots"><span></span><span></span><span></span></div><div class="w-url">thehubconnectshow.com</div></div>
         <div class="w-screen" style="background:linear-gradient(150deg,#060e1c,#0d1f3d);flex-direction:column;gap:1.4rem">
-          <img src="https://api.microlink.io?url=https%3A%2F%2Fthehubconnectshow.com&screenshot=true&meta=false&embed=screenshot.url" alt="HubConnect platform preview" loading="lazy" style="width:100%;height:100%;min-height:320px;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
             <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:#e8c547">HubConnect</div>
             <div style="font-size:.62rem;color:#8aa8d8;letter-spacing:.16em;text-transform:uppercase">Buy · Sell · Find · Connect</div>
             <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center"><span class="tag">Platform</span><span class="tag">Brand Strategy</span><span class="tag">Community</span></div>
@@ -434,7 +437,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
           <div class="w-bul">Community engagement and field operations framework</div>
           <div class="w-bul">Digital experience and product presentation</div>
         </div>
-        <a href="https://martinezknight.github.io/hubconnect/" target="_blank" rel="noopener" class="w-lnk">View Project →</a>
+        <a href="https://martinezknight.github.io/hubconnect/" target="_blank" rel="noopener" class="w-lnk">View Project</a>
       </div>
     </div>
   </div>
@@ -445,8 +448,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
       <div class="w-browser anim al">
         <div class="w-bar"><div class="w-dots"><span></span><span></span><span></span></div><div class="w-url">kadtechinnovativesolutions.com</div></div>
         <div class="w-screen" style="background:linear-gradient(150deg,#04101e,#0a1c34);flex-direction:column;gap:1.2rem">
-          <img src="https://api.microlink.io?url=https%3A%2F%2Fwww.kadtechinnovativesolutions.com&screenshot=true&meta=false&embed=screenshot.url" alt="Kadtech Innovative Solutions website preview" loading="lazy" style="width:100%;height:100%;min-height:320px;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
             <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:#60a5fa">KADTECH</div>
             <div style="font-size:.62rem;color:#8bb8ed;letter-spacing:.12em;text-transform:uppercase">Buy · Sell · Swap · Repair</div>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;width:80%"><span class="tag">Buy</span><span class="tag">Sell</span><span class="tag">Swap</span><span class="tag">Repair</span></div>
@@ -463,7 +465,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
           <div class="w-bul">Digital strategy and customer acquisition direction</div>
           <div class="w-bul">Clear service pathways for buying, selling, swapping, and repairs</div>
         </div>
-        <a href="https://www.kadtechinnovativesolutions.com/" target="_blank" rel="noopener" class="w-lnk">Visit Live Site →</a>
+        <a href="https://www.kadtechinnovativesolutions.com/" target="_blank" rel="noopener" class="w-lnk">Visit Live Site</a>
       </div>
     </div>
   </div>
@@ -474,8 +476,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
       <div class="w-browser anim ar">
         <div class="w-bar"><div class="w-dots"><span></span><span></span><span></span></div><div class="w-url">martinezknight.github.io/martinez-knight</div></div>
         <div class="w-screen" style="background:linear-gradient(150deg,#060606,#141200);flex-direction:column;gap:1.2rem">
-          <img src="https://api.microlink.io?url=https%3A%2F%2Fmartinezknight.github.io%2Fmartinez-knight%2F&screenshot=true&meta=false&embed=screenshot.url" alt="Martinez Knight Agency website preview" loading="lazy" style="width:100%;height:100%;min-height:320px;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
             <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:#e8c547">MARTINEZ KNIGHT</div>
             <div style="font-size:.6rem;color:#b9a75b;letter-spacing:.12em;text-transform:uppercase">Digital Infrastructure &amp; Business Transformation</div>
             <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center"><span class="tag">Web</span><span class="tag">CRM</span><span class="tag">SEO</span><span class="tag">Automation</span></div>
@@ -492,7 +493,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
           <div class="w-bul">CRM, workflow automation, and email infrastructure</div>
           <div class="w-bul">SEO and digital growth architecture</div>
         </div>
-        <a href="https://martinezknight.github.io/martinez-knight/" target="_blank" rel="noopener" class="w-lnk">Visit Agency →</a>
+        <a href="https://martinezknight.github.io/martinez-knight/" target="_blank" rel="noopener" class="w-lnk">Visit Agency</a>
       </div>
     </div>
   </div>
@@ -503,8 +504,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
       <div class="w-browser anim al">
         <div class="w-bar"><div class="w-dots"><span></span><span></span><span></span></div><div class="w-url">goodland.africa/clearance-sales</div></div>
         <div class="w-screen" style="background:linear-gradient(150deg,#0c0802,#201408);flex-direction:column;gap:1.2rem">
-          <img src="https://api.microlink.io?url=https%3A%2F%2Fgoodland.africa%2Fclearance-sales%2F&screenshot=true&meta=false&embed=screenshot.url" alt="Goodland clearance sale campaign preview" loading="lazy" style="width:100%;height:100%;min-height:320px;object-fit:cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:.8rem;text-align:center">
             <div style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:#c97b3a">GOODLAND</div>
             <div style="font-size:.6rem;color:#d6b47a;letter-spacing:.15em;text-transform:uppercase">Luxury Interior Décor</div>
             <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:#e8c547">CLEARANCE</div>
@@ -522,7 +522,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
           <div class="w-bul">WhatsApp-first enquiry and sales pathway</div>
           <div class="w-bul">Social campaign content and promotional coordination</div>
         </div>
-        <a href="https://goodland.africa/clearance-sales/" target="_blank" rel="noopener" class="w-lnk">View Campaign →</a>
+        <a href="https://goodland.africa/clearance-sales/" target="_blank" rel="noopener" class="w-lnk">View Campaign</a>
       </div>
     </div>
   </div>
@@ -550,7 +550,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
         <h3 class="w-title">Geycci Beauty & Wellness Spa</h3>
         <p class="w-desc">Abuja's luxury spa serving the city's elite. Built and manage the complete WordPress website, membership tiers system (₦589K–₦1.7M), booking flows, and the 2026 Marketing Campaign budget.</p>
         <div class="w-buls"><div class="w-bul">Website design & development</div><div class="w-bul">Membership tiers UX & pricing architecture</div><div class="w-bul">2026 Marketing Campaign strategy & budget (Excel)</div><div class="w-bul">Social media management (Facebook, IG, TikTok)</div></div>
-        <a href="https://geycci.com" target="_blank" class="w-lnk">Visit Live Site →</a>
+        <a href="https://geycci.com" target="_blank" class="w-lnk">Visit Live Site</a>
       </div>
     </div>
   </div>
@@ -584,7 +584,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
           <div class="w-bul">Supervising Trendsetters team · 100% posting consistency</div>
           <div class="w-bul">3 viral-level campaigns delivered · Full digital infrastructure built</div>
         </div>
-        <a href="https://goodland.africa/packages/" target="_blank" class="w-lnk">Visit Live Site →</a>
+        <a href="https://goodland.africa/packages/" target="_blank" class="w-lnk">Visit Live Site</a>
       </div>
     </div>
   </div>
@@ -621,7 +621,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
           <div class="w-bul">15-page company profile & complete brand identity system</div>
           <div class="w-bul">Aggressive digital advertising campaigns (launching soon)</div>
         </div>
-        <a href="https://elpazio.com/services/" target="_blank" class="w-lnk">Visit Live Site →</a>
+        <a href="https://elpazio.com/services/" target="_blank" class="w-lnk">Visit Live Site</a>
       </div>
     </div>
   </div>
@@ -669,7 +669,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
           <div class="w-bul">Optimized navigation architecture, image-heavy portfolio caching, and backend server response times.</div>
           <div class="w-bul">Currently transitioning corporate operations to a secure, centralized IT communication network.</div>
         </div>
-        <a href="https://spacespectrumltd.com/" target="_blank" class="w-lnk">Visit Live Site →</a>
+        <a href="https://spacespectrumltd.com/" target="_blank" class="w-lnk">Visit Live Site</a>
       </div>
     </div>
   </div>
@@ -702,7 +702,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
       <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--acc)" class="cnt" data-t="100">100</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem">Designs Delivered</div></div>
       <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--acc)" class="cnt" data-t="15">15</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem">Brands Served</div></div>
       <div style="text-align:center"><div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--acc)" class="cnt" data-t="7">7</div><div style="font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem">Industries</div></div>
-      <a href="https://martinezknight.github.io/graphics.html" target="_blank" style="background:var(--acc);color:#080808;padding:.8rem 2rem;font-weight:700;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;align-self:center">Full Portfolio →</a>
+      <a href="https://martinezknight.github.io/graphics.html" target="_blank" style="background:var(--acc);color:#080808;padding:.8rem 2rem;font-weight:700;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;align-self:center">View All Work</a>
     </div>
   </div>
 </div>
@@ -852,14 +852,14 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
     <div class="s-lbl anim">Tech Stack</div>
     <h2 class="s-ttl anim" style="font-size:2rem">Tools I <em>Live In</em></h2>
     <div class="tools-cloud anim">
-      <div class="tp"><span class="td"></span>CMS</div><div class="tp"><span class="td"></span>Elementor</div><div class="tp"><span class="td"></span>HTML / CSS</div><div class="tp"><span class="td"></span>Canva</div><div class="tp"><span class="td"></span>Meta</div><div class="tp"><span class="td"></span>Notion</div><div class="tp"><span class="td"></span>Airtable</div><div class="tp"><span class="td"></span>AI Tools</div><div class="tp"><span class="td"></span>Microsoft Suite</div><div class="tp"><span class="td"></span>Bufffer</div><div class="tp"><span class="td"></span>Miro</div><div class="tp"><span class="td"></span>Google Analytics</div><div class="tp"><span class="td"></span>AWS Cloud</div><div class="tp"><span class="td"></span>Affinity</div><div class="tp"><span class="td"></span>Napkin AI</div><div class="tp"><span class="td"></span>SEO Tools</div><div class="tp"><span class="td"></span>PPC / Google Ads</div><div class="tp"><span class="td"></span>Video Editing</div>
+      <div class="tp"><span class="td"></span>CMS</div><div class="tp"><span class="td"></span>Elementor</div><div class="tp"><span class="td"></span>HTML / CSS</div><div class="tp"><span class="td"></span>Canva</div><div class="tp"><span class="td"></span>Meta</div><div class="tp"><span class="td"></span>Notion</div><div class="tp"><span class="td"></span>Airtable</div><div class="tp"><span class="td"></span>AI Tools</div><div class="tp"><span class="td"></span>Microsoft Suite</div><div class="tp"><span class="td"></span>Buffer</div><div class="tp"><span class="td"></span>Miro</div><div class="tp"><span class="td"></span>Google Analytics</div><div class="tp"><span class="td"></span>AWS Cloud</div><div class="tp"><span class="td"></span>Affinity</div><div class="tp"><span class="td"></span>Napkin AI</div><div class="tp"><span class="td"></span>SEO Tools</div><div class="tp"><span class="td"></span>PPC / Google Ads</div><div class="tp"><span class="td"></span>Video Editing</div>
     </div>
   </div>
 </div>
 
 <!-- CONTACT -->
 <div class="cta-sec" id="contact">
-  <div class="cta-bg">HIRE</div>
+  <div class="cta-bg">MO</div>
   <h2 class="cta-t">Ready to hire someone<em>who actually delivers?</em></h2>
   <p class="cta-s">Open to remote roles globally. Based in Abuja, Nigeria. Available for full-time, contract, or project-based engagements.</p>
   <div class="cta-lnks">
@@ -875,7 +875,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
   <span>ABUJA, NIGERIA · AVAILABLE GLOBALLY</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── LOADER ─────────────────────────────────────────────────────────
 (function(){
   const pct = document.getElementById('ldpct');
@@ -894,20 +894,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
   }
 })();
 
-// ── CURSOR ──────────────────────────────────────────────────────────
-const cur = document.getElementById('cur');
-const curR = document.getElementById('cur-r');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
-(function animR(){
-  rx += (mx-rx)*.1; ry += (my-ry)*.1;
-  curR.style.left=rx+'px'; curR.style.top=ry+'px';
-  requestAnimationFrame(animR);
-})();
-document.querySelectorAll('a,button,.sk-card,.tp,.gi,.inf,.mk-item,.vid-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ curR.style.width='52px'; curR.style.height='52px'; curR.style.borderColor='rgba(232,197,71,.7)'; });
-  el.addEventListener('mouseleave',()=>{ curR.style.width='32px'; curR.style.height='32px'; curR.style.borderColor='rgba(232,197,71,.35)'; });
-});
+
 
 // ── NAV ─────────────────────────────────────────────────────────────
 window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('s', window.scrollY>50); });
